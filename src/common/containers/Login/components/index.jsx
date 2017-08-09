@@ -10,7 +10,7 @@ export default class LoginComponent extends Component {
 	constructor (props) {
 		super(props)
 		this.state = {
-			username: '',
+			email: '',
 			password: ''
 		}
 	}
@@ -23,8 +23,8 @@ export default class LoginComponent extends Component {
 		handleSubmit (e) {
 			e.preventDefault()
 			const {login} = this.props
-			const {username, password} = this.state
-			login({username, password})
+			const {email, password} = this.state
+			login({email, password})
 		}
 
 		handleChange (e, {name, value}) {
@@ -34,7 +34,7 @@ export default class LoginComponent extends Component {
 		}
 
 		render () {
-			const {username, password} = this.state
+			const {email, password} = this.state
 			// Error from server
 			const {errors} = this.props
 			const loginFormProps = {error: !_.isEmpty(errors)}
@@ -59,10 +59,10 @@ export default class LoginComponent extends Component {
 									content={'Your credentials are invalid.'}
 								/>}
 								<Form.Input
-									placeholder="Username"
-									name="username"
-									label="Username"
-									value={username}
+									placeholder="Email"
+									name="email"
+									label="Email"
+									value={email}
 									onChange={::this.handleChange}
 								/>
 								<Form.Input

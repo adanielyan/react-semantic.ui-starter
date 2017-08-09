@@ -27,7 +27,7 @@ class UsersItemComponent extends Component {
 				<Card.Content extra>
 					<a>
 						<Icon name="user"/>
-						{user.username}
+						{user.email}
 					</a>
 				</Card.Content>
 			</Card>

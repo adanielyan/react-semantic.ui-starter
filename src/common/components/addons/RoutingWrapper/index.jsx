@@ -2,6 +2,7 @@ import React, {Component} from 'react'
 import PropTypes from 'prop-types'
 import {Switch, Redirect} from 'react-router-dom'
 import {LazyLoad} from 'components/addons'
+import {AUTH, AUTH_PENDING} from 'actions'
 
 /**
  * Returns application routing with protected by AuthCheck func routes
@@ -14,6 +15,10 @@ export default class RoutingWrapper extends Component {
 		store: PropTypes.object
 	}
 
+	componentWillMount () {
+		this.auth()
+	}
+
 	/**
     * Checks Auth logic. Is user allowed to visit certain path?
     * @param  {String} path next path to visit
@@ -22,16 +27,25 @@ export default class RoutingWrapper extends Component {
     */
 	authCheck (path) {
 		const {store} = this.props
-		const {isLoggedIn} = store.getState().me.auth
+		const state = store.getState()
+		const {isLoggedIn} = state.me.auth
 		const authPath = '/auth'
 		const allowedToVisitPath = [authPath]
-		console.log(`RoutingWrapper: isLoggedIn:${isLoggedIn}`)
 		if (isLoggedIn && path === authPath) {
 			return false
 		} else if (!isLoggedIn && !allowedToVisitPath.includes(path)) {
 			return false
 		}
 		return true
+	}
+
+	auth () {
+		const {store} = this.props
+		store.dispatch({type: AUTH_PENDING})
+		const result = AUTH()
+			.then((result) => {
+				return store.dispatch(result)
+			})
 	}
 
 	render () {

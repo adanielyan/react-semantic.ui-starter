@@ -44,7 +44,7 @@ export default function requestWrapper (method) {
 			.then(checkStatus)
 			.then(parseJSON)
 			.catch(err => {
-				console.error(err)
+				return err
 			})
 	}
 }
