@@ -16,6 +16,12 @@
 ### What is it?
 **Fullstack** **isomorphic** boilerplate with **server-side rendering** and **lazy-loading** for your **new Progressive Web App**.
 
+### Quick intro
+
+##### [Why this starter use `react-semantic-ui`?](/docs/SUI.md)
+TL;DR: You're always free to use your own UI framework. The starter is "UI-framework-agnostic".    
+**[UI framework comparison here.](https://hackernoon.com/the-coolest-react-ui-frameworks-for-your-new-react-app-ad699fffd651)**
+
 ### What's inside?
 
 [![bitHound Dependencies](https://www.bithound.io/github/Metnew/react-semantic.ui-starter/badges/dependencies.svg)](https://www.bithound.io/github/Metnew/react-semantic.ui-starter/master/dependencies/npm)
@@ -58,29 +64,14 @@
 
 #### Install:
 ```bash
+# clone repo without full git history
 git clone --depth=1 https://github.com/Metnew/react-semantic.ui-starter.git
-cd react-semantic.ui-starter && rm -rf .git
+cd react-semantic.ui-starter
+# You can remove .git folder, if you don't want to pull new features or need your own repo
+# to remove folder run: rm -rf .git
+# install dependencies
 npm install
 ```
-
-#### ENV vars:
-ENV vars are **very important** for configuration.
-
-#### Client ENV vars:
-`GA_ID`: Your Google analytics ID.     
-`BASE_API`: `/api/v1` by default. App uses this path for requests with relative urls     
-`SENTRY_PUBLIC_DSN`: Your Sentry public DSN.    
-`APP_LANGUAGE`: `en` by default. Build app with this language. Check `/i18n` folder and **[i18n-webpack-plugin](https://github.com/webpack-contrib/i18n-webpack-plugin)**.     
-`ANALYZE_BUNDLE`: Run webpack-bundle-analyzer after build.    
-
-#### Server ENV vars:
-`PORT`: Port on which your app run.     
-`JWT_SECRET`: JWT_SECRET :smile:    
-`BASE_API`: App uses this path for requests with relative urls   
-`SENTRY_PUBLIC_DSN`: Your Sentry public DSN    
-`SENTRY_DSN`: Your Sentry full(private) DSN for server.   
-`APP_LANGUAGE`: Language of your app.    
-`DIST_PATH`: (by default: `/dist/client/<APP_LANGUAGE>`). Path where server search for the index.html of your **built** app.   
 
 #### Development:
 
@@ -135,61 +126,54 @@ Powered by ESDoc.
 npm run docs # generate docs and `serve`
 ```
 
-#### Nearest future:
+#### ENV vars:
+ENV vars are **very important** for configuration.
 
+#### Client ENV vars:
+`GA_ID`: Your Google analytics ID.      
+`BASE_API`: `/api/v1` by default. App uses this path for requests with relative urls      
+`SENTRY_PUBLIC_DSN`: Your Sentry public DSN.     
+`APP_LANGUAGE`: `en` by default. Build app with this language. Check `/i18n` folder and **[i18n-webpack-plugin](https://github.com/webpack-contrib/i18n-webpack-plugin)**.      
+`ANALYZE_BUNDLE`: Run webpack-bundle-analyzer after build.     
+
+#### Server ENV vars:
+`PORT`: Port on which your app run.      
+`JWT_SECRET`: JWT_SECRET :smile:     
+`BASE_API`: App uses this path for requests with relative urls    
+`SENTRY_PUBLIC_DSN`: Your Sentry public DSN     
+`SENTRY_DSN`: Your Sentry full(private) DSN for server.    
+`APP_LANGUAGE`: Language of your app.     
+`DIST_PATH`: (by default: `/dist/client/<APP_LANGUAGE>`). Path where server search for the index.html of your **built** app.    
+ 
+
+#### How it works?
+
+##### **[Most commonly asked questions are here.](/docs/faq.md)**
+
+Some guides are already finished, some aren't. I update branch very often, so improved docs and explanations will be very soon.
+
+##### ~~[Webpack configuration (not finished)](/docs/webpack.md)~~
+##### [How i18n works?](/docs/i18n.md)
+##### [Testing.](/docs/testing.md)
+##### [Why this starter use `react-semantic-ui`?](/docs/SUI.md)
+##### ~~[How does SSR work? (not finished)](/docs/ssr.md)~~
+##### ~~[Environment variables and configuration. (not finished)](/docs/env_vars.md)~~
+##### ~~[Starter architecture and design. (not finished)](/docs/design.md)~~
+
+
+#### Nearest future:
 - SSR with HMR on client and server from one process. *(testing right now)*
 - Improved docs!
 
-### FAQ
-
-#### Where are static assets?
-You can store static assets (images, videos) in `/static` folder.
-
-#### Where is manifest.json?
-You can find it in `webpack_config/config.js`
-
-#### Is SSR available?
-Yes! Check `/src/server/ssr/`. App uses rapscallion for async rendering on server.
-
-#### How lazy-loading implemented:
-Check `src/common/routing/index.js` and `src/common/components/addons/LazyLoad`. TL;DR: dynamic `import()`.
-
-#### Is theming available?
-Yes, with styled-components's `<ThemeProvider>` you can specify your own theme. By default, app uses theme from [www.materialpallette.com](https://www.materialpalette.com/).
-
-#### How it differs from other starters?
-App is designed for big projects. Personally, I use almost similar boilerplate in production project.
-**Main purpose - build highly customizable isomorphic(!) skeleton for PWA, with SSR, code-splitting, following best practices.**
-
-#### "You have a components folder and containers folder..and in the container you have another components folder?"
-
-Components inside `containers/**/components` are components that are required by container.
-
-For example, `Dashboard`(container) has `DashboardComponent`(component). You can think about `DashboardComponent` as "Isolated component", it isn't used in app anywhere except own parent-container.
-
-Components in components are components that:
-1. Don't have own logic and connection with state (as opposite to containers)
-2. Aren't "isolated".(!)
-
-#### Where are tests?
-There are tests for actions and for reducers.
-Each reducer/action has own folder, where you can find:
-1. Reducer/action itself.
-2. Tests for it.
-
-#### How to write tests?
-You can find [action testing example here.](https://github.com/Metnew/react-semantic.ui-starter/blob/master/src/common/actions/auth/index.test.js)
-It uses [redux-mock-store.](https://github.com/Metnew/react-semantic.ui-starter/blob/master/src/common/actions/auth/index.test.js)
-
-### Also:
+### Something very important:
 
 > Have a question? Ask! :wink:
 
-PRs, and issues are welcome :smiling_imp:
+Any help is highly appreciated, because the project still has only one contributor (ha-ha, yeah it's me :smiling_imp:).   
+PRs, and issues are always welcome.
 
 ### Author
 Vladimir Metnew <vladimirmetnew@gmail.com>
 
 ### LICENSE
-
 MIT

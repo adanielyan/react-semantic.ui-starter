@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import PropTypes from 'prop-types'
 import {Switch, Redirect} from 'react-router-dom'
-import {LazyLoad} from 'components/addons'
+import LazyLoad from 'components/addons/LazyLoad'
 
 /**
  * Returns application routing with protected by AuthCheck func routes
@@ -25,7 +25,7 @@ export default class RoutingWrapper extends Component {
 		const {isLoggedIn} = store.getState().me.auth
 		const authPath = '/auth'
 		const allowedToVisitPath = [authPath]
-		console.log(`RoutingWrapper: isLoggedIn:${isLoggedIn}`)
+
 		if (isLoggedIn && path === authPath) {
 			return false
 		} else if (!isLoggedIn && !allowedToVisitPath.includes(path)) {
