@@ -13,12 +13,12 @@
 
 </div>
 
-### What is it?
+### What is this?
 **Fullstack** **isomorphic** boilerplate with **server-side rendering** and **lazy-loading** for your **new Progressive Web App**.
 
 ### Quick intro
 
-##### [Why this starter use `react-semantic-ui`?](/docs/SUI.md)
+##### [Why this starter uses `react-semantic-ui`?](/docs/SUI.md)
 TL;DR: You're always free to use your own UI framework. The starter is "UI-framework-agnostic".    
 **[UI framework comparison here.](https://hackernoon.com/the-coolest-react-ui-frameworks-for-your-new-react-app-ad699fffd651)**
 
@@ -67,7 +67,7 @@ TL;DR: You're always free to use your own UI framework. The starter is "UI-frame
 # clone repo without full git history
 git clone --depth=1 https://github.com/Metnew/react-semantic.ui-starter.git
 cd react-semantic.ui-starter
-# You can remove .git folder, if you don't want to pull new features or need your own repo
+# You can remove .git folder if you don't want to pull new features or need your own repo
 # to remove folder run: rm -rf .git
 # install dependencies
 npm install
@@ -139,12 +139,12 @@ ENV vars are **very important** for configuration.
 #### Server ENV vars:
 `PORT`: Port on which your app run.      
 `JWT_SECRET`: JWT_SECRET :smile:     
-`BASE_API`: App uses this path for requests with relative urls    
-`SENTRY_PUBLIC_DSN`: Your Sentry public DSN     
-`SENTRY_DSN`: Your Sentry full(private) DSN for server.    
+`BASE_API`: App uses this path for requests with relative urls.    
+`SENTRY_PUBLIC_DSN`: Your Sentry public DSN.      
+`SENTRY_DSN`: Your Sentry full(private) DSN for server-side error handling.    
 `APP_LANGUAGE`: Language of your app.     
 `DIST_PATH`: (by default: `/dist/client/<APP_LANGUAGE>`). Path where server search for the index.html of your **built** app.    
- 
+
 
 #### How it works?
 
@@ -155,7 +155,7 @@ Some guides are already finished, some aren't. I update branch very often, so im
 ##### ~~[Webpack configuration (not finished)](/docs/webpack.md)~~
 ##### [How i18n works?](/docs/i18n.md)
 ##### [Testing.](/docs/testing.md)
-##### [Why this starter use `react-semantic-ui`?](/docs/SUI.md)
+##### [Why this starter uses `react-semantic-ui`?](/docs/SUI.md)
 ##### ~~[How does SSR work? (not finished)](/docs/ssr.md)~~
 ##### ~~[Environment variables and configuration. (not finished)](/docs/env_vars.md)~~
 ##### ~~[Starter architecture and design. (not finished)](/docs/design.md)~~
@@ -169,8 +169,8 @@ Some guides are already finished, some aren't. I update branch very often, so im
 
 > Have a question? Ask! :wink:
 
-Any help is highly appreciated, because the project still has only one contributor (ha-ha, yeah it's me :smiling_imp:).   
-PRs, and issues are always welcome.
+Any help is highly appreciated because the project still has only one contributor (ha-ha, yeah it's me :smiling_imp:).   
+PRs and issues are always welcome.
 
 ### Author
 Vladimir Metnew <vladimirmetnew@gmail.com>
