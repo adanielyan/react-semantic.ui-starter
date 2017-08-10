@@ -177,6 +177,7 @@ base.plugins.push(
 	}),
 	new OfflinePlugin({
 		publicPath: '/',
+		safeToUseOptionalCaches: true,
 		caches: {
 			main: [
 				'vendor.*.js',
