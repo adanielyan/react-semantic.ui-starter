@@ -15,10 +15,10 @@ export default class LoginComponent extends Component {
 		}
 	}
 
-		static propTypes = {
-			login: PropTypes.func,
-			errors: PropTypes.object
-		}
+	static propTypes = {
+		login: PropTypes.func,
+		errors: PropTypes.object
+	}
 
 		handleSubmit (e) {
 			e.preventDefault()
@@ -27,11 +27,11 @@ export default class LoginComponent extends Component {
 			login({email, password})
 		}
 
-		handleChange (e, {name, value}) {
-			this.setState({
-				[name]: value
-			})
-		}
+	handleChange (e, {name, value}) {
+		this.setState({
+			[name]: value
+		})
+	}
 
 		render () {
 			const {email, password} = this.state
@@ -44,15 +44,21 @@ export default class LoginComponent extends Component {
 				icon: 'sign in'
 			}
 
-			return (
-				<Grid verticalAlign="middle" centered columns={1} textAlign="center" relaxed>
-					<Helmet>
-						<title>React-Semantic.UI-Starter: Login</title>
-					</Helmet>
-					<Grid.Row>
-						<Grid.Column tablet={10} mobile={16} computer={6}>
-							<Form onSubmit={::this.handleSubmit} {...loginFormProps}>
-								{errors &&
+		return (
+			<Grid
+				verticalAlign="middle"
+				centered
+				columns={1}
+				textAlign="center"
+				relaxed
+			>
+				<Helmet>
+					<title>React-Semantic.UI-Starter: Login</title>
+				</Helmet>
+				<Grid.Row>
+					<Grid.Column tablet={10} mobile={16} computer={6}>
+						<Form onSubmit={::this.handleSubmit} {...loginFormProps}>
+							{errors &&
 								<Message
 									error
 									header={'Invalid credentials'}
