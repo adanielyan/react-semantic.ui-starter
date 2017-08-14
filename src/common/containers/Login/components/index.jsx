@@ -20,12 +20,12 @@ export default class LoginComponent extends Component {
 		errors: PropTypes.object
 	}
 
-		handleSubmit (e) {
-			e.preventDefault()
-			const {login} = this.props
-			const {email, password} = this.state
-			login({email, password})
-		}
+	handleSubmit (e) {
+		e.preventDefault()
+		const {login} = this.props
+		const {email, password} = this.state
+		login({email, password})
+	}
 
 	handleChange (e, {name, value}) {
 		this.setState({
@@ -33,16 +33,16 @@ export default class LoginComponent extends Component {
 		})
 	}
 
-		render () {
-			const {email, password} = this.state
-			// Error from server
-			const {errors} = this.props
-			const loginFormProps = {error: !_.isEmpty(errors)}
-			// Login btn props
-			const loginBtnProps = {
-				content: 'Login',
-				icon: 'sign in'
-			}
+	render () {
+		const {email, password} = this.state
+		// Error from server
+		const {errors} = this.props
+		const loginFormProps = {error: !_.isEmpty(errors)}
+		// Login btn props
+		const loginBtnProps = {
+			content: 'Login',
+			icon: 'sign in'
+		}
 
 		return (
 			<Grid
@@ -64,28 +64,28 @@ export default class LoginComponent extends Component {
 									header={'Invalid credentials'}
 									content={'Your credentials are invalid.'}
 								/>}
-								<Form.Input
-									placeholder="Email"
-									name="email"
-									label="Email"
-									value={email}
-									onChange={::this.handleChange}
-								/>
-								<Form.Input
-									placeholder="Password"
-									type="password"
-									name="password"
-									label="Password"
-									value={password}
-									onChange={::this.handleChange}
-								/>
-								<TextCenter>
-									<LoginButton {...loginBtnProps}/>
-								</TextCenter>
-							</Form>
-						</Grid.Column>
-					</Grid.Row>
-				</Grid>
-			)
-		}
+							<Form.Input
+								placeholder="Email"
+								name="email"
+								label="Email"
+								value={email}
+								onChange={::this.handleChange}
+							/>
+							<Form.Input
+								placeholder="Password"
+								type="password"
+								name="password"
+								label="Password"
+								value={password}
+								onChange={::this.handleChange}
+							/>
+							<TextCenter>
+								<LoginButton {...loginBtnProps}/>
+							</TextCenter>
+						</Form>
+					</Grid.Column>
+				</Grid.Row>
+			</Grid>
+		)
+	}
 }
