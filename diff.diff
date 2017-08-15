@@ -1,0 +1,632 @@
+diff --git a/.vscode/launch.json b/.vscode/launch.json
+new file mode 100644
+index 0000000..e49858c
+--- /dev/null
++++ b/.vscode/launch.json
+@@ -0,0 +1,14 @@
++{
++    // Use IntelliSense to learn about possible Node.js debug attributes.
++    // Hover to view descriptions of existing attributes.
++    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
++    "version": "0.2.0",
++    "configurations": [
++        {
++            "type": "node",
++            "request": "launch",
++            "name": "Launch Program",
++            "program": "${workspaceRoot}/webpack_config/server.js"
++        }
++    ]
++}
+\ No newline at end of file
+diff --git a/package.json b/package.json
+index f5c04b4..e654a65 100644
+--- a/package.json
++++ b/package.json
+@@ -4,6 +4,11 @@
+   "main": "common/index.jsx",
+   "description": "React/Redux/Jest/Webpack/Semantic.UI boilerplate/example.",
+   "dependencies": {
++    "feathers-authentication-client": "^0.3.2",
++    "feathers-client": "^2.2.0",
++    "feathers-localstorage": "^1.0.0",
++    "feathers-rest": "^1.7.2",
++    "socket.io-client": "^2.0.3",
+     "classnames": "^2.2.5",
+     "cookie-parser": "^1.4.3",
+     "helmet": "^3.6.1",
+diff --git a/src/common/actions/auth/index.js b/src/common/actions/auth/index.js
+index f6519fa..8907cfe 100644
+--- a/src/common/actions/auth/index.js
++++ b/src/common/actions/auth/index.js
+@@ -1,26 +1,43 @@
+ import {
+-  loginAPI,
+-  setLocalToken,
+-  resetLocalToken,
++  authenticate,
++  login,
++  logout,
+   resultOK
+ } from 'api'
+ 
++export const AUTH_PENDING = 'AUTH_PENDING'
++export const AUTH_SUCCESS = 'AUTH_SUCCESS'
++export const AUTH_FAIL = 'AUTH_FAIL'
++
+ export const LOGIN_AUTH_PENDING = 'LOGIN_AUTH_PENDING'
+ export const LOGIN_AUTH_SUCCESS = 'LOGIN_AUTH_SUCCESS'
+ export const LOGIN_AUTH_FAIL = 'LOGIN_AUTH_FAIL'
+ 
+ export const LOGOUT_AUTH_SUCCESS = 'LOGOUT_AUTH_SUCCESS'
++export const LOGOUT_AUTH_FAIL = 'LOGOUT_AUTH_FAIL'
++
++export const AUTH = async () => {
++  const result = await authenticate()
++  if (!result) {
++    return {type: AUTH_FAIL, errors: result}
++  }
++
++  return {type: AUTH_SUCCESS, result}
++}
+ 
+ export const LOGIN_AUTH = async data => {
+-  let result = await loginAPI(data)
+-  if (!resultOK(result)) {
+-    return {type: LOGIN_AUTH_FAIL, errors: result.data}
++  const result = await login(data)
++  if (!result) {
++    return {type: LOGIN_AUTH_FAIL, errors: result}
+   }
+-  setLocalToken(result.data.token)
+-  return {type: LOGIN_AUTH_SUCCESS, result: result.data}
++
++  return {type: LOGIN_AUTH_SUCCESS, result}
+ }
+ 
+ export const LOGOUT_AUTH = () => {
+-  resetLocalToken()
+-  return {type: LOGOUT_AUTH_SUCCESS}
++  if (logout()) {
++    return {type: LOGOUT_AUTH_SUCCESS}
++  } else {
++    return {type: LOGOUT_AUTH_FAIL}
++  }
+ }
+diff --git a/src/common/actions/posts/index.js b/src/common/actions/posts/index.js
+index 9d3b39f..c3914ab 100644
+--- a/src/common/actions/posts/index.js
++++ b/src/common/actions/posts/index.js
+@@ -1,14 +1,26 @@
+-import {getPostsAPI, resultOK} from 'api'
++import { getTemplates, getTemplate, resultOK } from 'api'
+ 
+ // define action types
+ export const GET_POSTS_SUCCESS = 'GET_POSTS_SUCCESS'
+ export const GET_POSTS_FAIL = 'GET_POSTS_FAIL'
+ export const GET_POSTS_PENDING = 'GET_POSTS_PENDING'
+ 
+-export const GET_POSTS = async () => {
+-  const result = await getPostsAPI()
++export const GET_POST_SUCCESS = 'GET_POST_SUCCESS'
++export const GET_POST_FAIL = 'GET_POST_FAIL'
++export const GET_POST_PENDING = 'GET_POST_PENDING'
++
++export const GET_POSTS = async (payload) => {
++  const result = await getTemplates(payload)
++  if (!result) {
++    return {type: GET_POSTS_FAIL, errors: 'No templates found'}
++  }
++  return {type: GET_POSTS_SUCCESS, result}
++}
++
++export const GET_POST = async (payload) => {
++  const result = await getTemplate(payload)
+   if (!resultOK(result)) {
+-    return {type: GET_POSTS_FAIL, errors: result.data}
++    return {type: GET_POST_FAIL, errors: 'Template not found'}
+   }
+-  return {type: GET_POSTS_SUCCESS, result: result.data}
++  return {type: GET_POST_SUCCESS, result}
+ }
+diff --git a/src/common/actions/users/index.js b/src/common/actions/users/index.js
+index bebd2c7..b8477e9 100644
+--- a/src/common/actions/users/index.js
++++ b/src/common/actions/users/index.js
+@@ -1,14 +1,26 @@
+-import {resultOK, getUsersAPI} from 'api'
++import {resultOK, getUsers, getUser} from 'api'
+ 
+ // define action types
+ export const GET_USERS_SUCCESS = 'GET_USERS_SUCCESS'
+ export const GET_USERS_FAIL = 'GET_USERS_FAIL'
+ export const GET_USERS_PENDING = 'GET_USERS_PENDING'
+ 
+-export const GET_USERS = async id => {
+-  const result = await getUsersAPI(id)
+-  if (!resultOK(result)) {
+-    return {type: GET_USERS_FAIL, errors: result.data}
++export const GET_USER_SUCCESS = 'GET_USER_SUCCESS'
++export const GET_USER_FAIL = 'GET_USER_FAIL'
++export const GET_USER_PENDING = 'GET_USER_PENDING'
++
++export const GET_USERS = async () => {
++  const result = await getUsers()
++  if (!result) {
++    return {type: GET_USERS_FAIL, errors: 'No users found'}
++  }
++  return {type: GET_USERS_SUCCESS, result}
++}
++
++export const GET_USER = async id => {
++  const result = await getUser(id)
++  if (!result) {
++    return {type: GET_USER_FAIL, errors: 'User not found'}
+   }
+-  return {type: GET_USERS_SUCCESS, result: result.data}
++  return {type: GET_USER_SUCCESS, result}
+ }
+diff --git a/src/common/api/AuthSvc/index.js b/src/common/api/AuthSvc/index.js
+index c5b30f6..c1c265c 100644
+--- a/src/common/api/AuthSvc/index.js
++++ b/src/common/api/AuthSvc/index.js
+@@ -1,36 +1,32 @@
+-import {post} from 'api/utils'
+-import * as store from 'store2'
+-import Cookies from 'js-cookie'
++import { app, usersService } from 'api/utils'
+ 
+-export const JWT_TOKEN = 'JWT_TOKEN'
+-
+-export function getLocalToken () {
+-  const token = store.get(JWT_TOKEN) || Cookies.get(JWT_TOKEN)
+-  return token
+-}
+-
+-export function resetLocalToken () {
+-  store.remove(JWT_TOKEN)
+-  Cookies.remove(JWT_TOKEN)
+-}
+-
+-export function setLocalToken (token) {
+-  store.set(JWT_TOKEN, token)
+-  Cookies.set(JWT_TOKEN, token)
++/*
++payload = {
++  email: 'bob',
++  password: 'mypass',
++};
++*/
++export const login = async (payload) => {
++  const token = await app.authenticate({ strategy: 'local', ...payload })
++  const verified = await app.passport.verifyJWT(token.accessToken)
++  const user = await usersService.get(verified.userId)
++  return user
+ }
+ 
+-export function isLoggedIn () {
+-  return !!getLocalToken()
++export function logout () {
++  return app.logout()
+ }
+ 
+-export async function loginAPI (data) {
+-  if (process.env.BUILD_DEMO) {
+-    return {
+-      ok: true,
+-      data: {
+-        [JWT_TOKEN]: 'Just_for_demo'
+-      }
+-    }
++export const authenticate = async () => {
++  try {
++    await app.authenticate()
++    const token = await localStorage.getItem('feathers-jwt')
++    const payload = await app.passport.verifyJWT(token)
++    const user = await usersService.get(payload.userId)
++    return user
++  } catch (err) {
++    // console.log(err)
++    // return {}
++    return null
+   }
+-  return post('/auth', data)
+ }
+diff --git a/src/common/api/PostsSvc/index.js b/src/common/api/PostsSvc/index.js
+index 157f919..9629724 100644
+--- a/src/common/api/PostsSvc/index.js
++++ b/src/common/api/PostsSvc/index.js
+@@ -1,5 +1,17 @@
+-import {get} from 'api/utils'
++import { templatesService } from 'api/utils'
+ 
+-export async function getPostsAPI () {
+-  return get('https://jsonplaceholder.typicode.com/posts?userId=1')
++export async function getTemplates (payload) {
++  try {
++    return templatesService.find(payload)
++  } catch (err) {
++    return []
++  }
++}
++
++export async function getTemplate (payload) {
++  try {
++    return templatesService.get(payload)
++  } catch (err) {
++    return {}
++  }
+ }
+diff --git a/src/common/api/UsersSvc/index.js b/src/common/api/UsersSvc/index.js
+index e05fe76..56702a1 100644
+--- a/src/common/api/UsersSvc/index.js
++++ b/src/common/api/UsersSvc/index.js
+@@ -1,7 +1,25 @@
+-import {get} from 'api/utils'
++import { usersService } from 'api/utils'
+ 
+-export async function getUsersAPI (id) {
+-  // support both /users and /users/:id
+-  console.log(`https://jsonplaceholder.typicode.com/users${id ? '/' + id : ''}`)
+-  return get(`https://jsonplaceholder.typicode.com/users${id ? '/' + id : ''}`)
++export async function getUsers (payload) {
++  try {
++    return await usersService.find(payload)
++  } catch (err) {
++    return []
++  }
++}
++
++export async function getUser (payload) {
++  try {
++    return await usersService.get(payload)
++  } catch (err) {
++    return {}
++  }
++}
++
++export async function createUser (payload) {
++  try {
++    return await usersService.create(payload)
++  } catch (err) {
++    return {}
++  }
+ }
+diff --git a/src/common/api/utils/index.js b/src/common/api/utils/index.js
+index e83f6fb..029cc64 100644
+--- a/src/common/api/utils/index.js
++++ b/src/common/api/utils/index.js
+@@ -1,22 +1,28 @@
+-import requestWrapper from './xhr_wrapper'
++import feathers from 'feathers-client'
++import socketio from 'feathers-socketio/client'
++import io from 'socket.io-client'
++import auth from 'feathers-authentication-client'
++
++const host = 'http://localhost:3030'
++const socket = io(host)
+ 
+ // EXPORT NORMALIZE STUFF!
+ export {normalizeArrayOfItems} from './normalize'
+-// create request wrappers
+-export const get = requestWrapper('GET')
+-export const post = requestWrapper('POST')
+-export const put = requestWrapper('PUT')
+-export const patch = requestWrapper('PATCH')
+-export const del = requestWrapper('DELETE')
+-// USAGE:
+-// get('https://www.google.com', {
+-//     Authorization: 'JWT LOL',
+-//     headers: {
+-//         'Content-Type': 'text/html'
+-//     }
+-// })
+ 
+-// Utils for response normalization
++export const app = feathers()
++  .configure(feathers.hooks())
++  .configure(socketio(socket))
++  .configure(auth({ storage: localStorage }))
++
++export const usersService = app.service('users')
++export const recipesService = app.service('recipes')
++export const widgetsService = app.service('widgets')
++export const templatesService = app.service('templates')
++export const messagesService = app.service('messages')
++
++messagesService.on('created', (msg) => {
++  // console.log(msg)
++})
+ 
+ // FUNCTION WITH SIDE-EFFECTS
+ /**
+diff --git a/src/common/api/utils/xhr_wrapper.js b/src/common/api/utils/xhr_wrapper.js
+index a7b2c8b..c06ef6f 100644
+--- a/src/common/api/utils/xhr_wrapper.js
++++ b/src/common/api/utils/xhr_wrapper.js
+@@ -44,7 +44,8 @@ export default function requestWrapper (method) {
+       .then(checkStatus)
+       .then(parseJSON)
+       .catch(err => {
+-        console.error(err)
++        // console.error(err)
++        return err
+       })
+   }
+ }
+diff --git a/src/common/components/views/Root/index.jsx b/src/common/components/views/Root/index.jsx
+index 4ac8c46..4518089 100644
+--- a/src/common/components/views/Root/index.jsx
++++ b/src/common/components/views/Root/index.jsx
+@@ -2,7 +2,7 @@ import React, {Component} from 'react'
+ import PropTypes from 'prop-types'
+ import {Provider} from 'react-redux'
+ import {ConnectedRouter as Router} from 'react-router-redux'
+-import {APPLICATION_INIT} from 'actions'
++import {AUTH, AUTH_PENDING, APPLICATION_INIT} from 'actions'
+ import {ThemeProvider} from 'styled-components'
+ import theme from 'styles/theme'
+ 
+@@ -10,11 +10,13 @@ export default class Root extends Component {
+   static propTypes = {
+     store: PropTypes.object,
+     history: PropTypes.object,
+-    routes: PropTypes.func
++    routes: PropTypes.func,
++    auth: PropTypes.func
+   }
+ 
+   componentWillMount () {
+     const {store} = this.props
++    this.auth()
+     store.dispatch({type: APPLICATION_INIT})
+   }
+   /**
+@@ -25,6 +27,7 @@ export default class Root extends Component {
+      */
+   authCheck (path) {
+     const {store} = this.props
++    const state = store.getState()
+     const {loggedIn} = store.getState().me.auth
+     const authPath = '/auth'
+     const allowedToVisitPath = [authPath]
+@@ -36,6 +39,15 @@ export default class Root extends Component {
+     return true
+   }
+ 
++  auth () {
++    const {store} = this.props
++    store.dispatch({type: AUTH_PENDING})
++    const result = AUTH()
++      .then((result) => {
++        return store.dispatch(result)
++      })
++  }
++
+   render () {
+     const {store, history, routes} = this.props
+     // key={Math.random()} = hack for HMR from https://github.com/webpack/webpack-dev-server/issues/395
+diff --git a/src/common/containers/Login/components/index.jsx b/src/common/containers/Login/components/index.jsx
+index 7647117..5914e59 100644
+--- a/src/common/containers/Login/components/index.jsx
++++ b/src/common/containers/Login/components/index.jsx
+@@ -10,7 +10,7 @@ export default class LoginComponent extends Component {
+   constructor (props) {
+     super(props)
+     this.state = {
+-      username: '',
++      email: '',
+       password: ''
+     }
+   }
+@@ -23,8 +23,8 @@ export default class LoginComponent extends Component {
+   handleSubmit (e) {
+     e.preventDefault()
+     const {login} = this.props
+-    const {username, password} = this.state
+-    login({username, password})
++    const {email, password} = this.state
++    login({email, password})
+   }
+ 
+   handleChange (e, {name, value}) {
+@@ -34,7 +34,7 @@ export default class LoginComponent extends Component {
+   }
+ 
+   render () {
+-    const {username, password} = this.state
++    const {email, password} = this.state
+     // error from server
+     const {errors} = this.props
+     const loginFormProps = {error: !_.isEmpty(errors)}
+@@ -59,10 +59,10 @@ export default class LoginComponent extends Component {
+                   content={'Your credentials are invalid.'}
+                 />}
+               <Form.Input
+-                placeholder="Username"
+-                name="username"
+-                label="Username"
+-                value={username}
++                placeholder="Email"
++                name="email"
++                label="Email"
++                value={email}
+                 onChange={::this.handleChange}
+               />
+               <Form.Input
+diff --git a/src/common/containers/Users/components/UsersItemComponent.jsx b/src/common/containers/Users/components/UsersItemComponent.jsx
+index cc25cb8..1611b4e 100644
+--- a/src/common/containers/Users/components/UsersItemComponent.jsx
++++ b/src/common/containers/Users/components/UsersItemComponent.jsx
+@@ -7,9 +7,8 @@ import {StyledUserItem} from './style'
+ export default class UsersItemComponent extends Component {
+   static propTypes = {
+     name: PropTypes.string,
+-    username: PropTypes.string,
+-    address: PropTypes.object,
+     email: PropTypes.string,
++    address: PropTypes.object,
+     website: PropTypes.string,
+     phone: PropTypes.string,
+     id: PropTypes.number,
+@@ -19,9 +18,8 @@ export default class UsersItemComponent extends Component {
+   render () {
+     const {
+       name,
+-      username,
+-      address,
+       email,
++      address,
+       website,
+       phone,
+       id
+@@ -32,7 +30,7 @@ export default class UsersItemComponent extends Component {
+         <Statistic floated="left" value={id} label={'User ID'} />
+         <Item.Content>
+           <Item.Header>
+-            {name} "{username}"
++            {name} "{email}"
+           </Item.Header>
+           <Item.Meta>
+             <span>
+diff --git a/src/common/containers/UsersItem/components/index.jsx b/src/common/containers/UsersItem/components/index.jsx
+index 31536ab..6292b23 100644
+--- a/src/common/containers/UsersItem/components/index.jsx
++++ b/src/common/containers/UsersItem/components/index.jsx
+@@ -27,7 +27,7 @@ class UsersItemComponent extends Component {
+         <Card.Content extra>
+           <a>
+             <Icon name="user" />
+-            {user.username}
++            {user.email}
+           </a>
+         </Card.Content>
+       </Card>
+diff --git a/src/common/pwa/index.js b/src/common/pwa/index.js
+index 1a83cf1..8e903b9 100644
+--- a/src/common/pwa/index.js
++++ b/src/common/pwa/index.js
+@@ -11,16 +11,16 @@ runtime.install({
+ 
+   // When an update is ready, tell ServiceWorker to take control immediately:
+   onUpdateReady () {
+-    console.log('update ready')
++    // console.log('update ready')
+     runtime.applyUpdate()
+   },
+ 
+   // Reload to get the new version:
+   onUpdated () {
+-    console.log('updated')
++    // console.log('updated')
+   },
+ 
+   onUpdateFailed: () => {
+-    console.log('SW Event:', 'onUpdateFailed')
++    // console.log('SW Event:', 'onUpdateFailed')
+   }
+ })
+diff --git a/src/common/reducers/auth/index.js b/src/common/reducers/auth/index.js
+index ba04f91..e24a2b7 100644
+--- a/src/common/reducers/auth/index.js
++++ b/src/common/reducers/auth/index.js
+@@ -1,41 +1,56 @@
+-import {isLoggedIn, getLocalToken} from 'api'
++import {app, authenticate} from 'api'
+ import {
+   LOGIN_AUTH_FAIL,
++  AUTH_FAIL,
+   LOGIN_AUTH_SUCCESS,
+   LOGOUT_AUTH_SUCCESS,
++  AUTH_SUCCESS,
++  LOGOUT_AUTH_FAIL,
+   APPLICATION_INIT
+ } from 'actions'
+ 
++let loggedIn = false
++
+ export const initialState = {
+-  loggedIn: isLoggedIn(),
+-  token: getLocalToken(),
++  user: {},
++  loggedIn,
+   errors: {}
+ }
+ 
+ export function auth (state = initialState, action) {
+   switch (action.type) {
+-    case APPLICATION_INIT:
+-      return {...initialState, ...state}
++    case APPLICATION_INIT: {
++      return {
++        ...initialState,
++        ...state
++      }
++    }
++    case AUTH_SUCCESS: {
++      const user = action.result
++      return {
++        ...state,
++        loggedIn: true,
++        user
++      }
++    }
+     case LOGOUT_AUTH_SUCCESS: {
+       return {
+         loggedIn: false,
+-        token: null,
+         errors: {}
+       }
+     }
+     case LOGIN_AUTH_FAIL: {
+       return {
+         loggedIn: false,
+-        token: null,
+         errors: action.errors
+       }
+     }
+     case LOGIN_AUTH_SUCCESS: {
+-      const {token} = action.result
++      const user = action.result
+       return {
+         ...state,
+         loggedIn: true,
+-        token
++        user
+       }
+     }
+     default:
+diff --git a/src/common/reducers/posts/index.js b/src/common/reducers/posts/index.js
+index f660689..702a056 100644
+--- a/src/common/reducers/posts/index.js
++++ b/src/common/reducers/posts/index.js
+@@ -33,7 +33,7 @@ export function posts (state = initialState, action) {
+         fetchStatus: 'loading'
+       }
+     }
+-    case GET_POSTS_SUCCESS:
++    case GET_POSTS_SUCCESS: {
+       const {result} = action
+       // @Metnew:
+       // result may be an object, if it was request with params
+@@ -47,6 +47,7 @@ export function posts (state = initialState, action) {
+         count,
+         entities
+       }
++    }
+     case GET_POSTS_FAIL:
+       return {
+         ...state,
+diff --git a/webpack_config/webpack.base.js b/webpack_config/webpack.base.js
+index fe4f3de..ff0b833 100644
+--- a/webpack_config/webpack.base.js
++++ b/webpack_config/webpack.base.js
+@@ -5,7 +5,7 @@ const CopyWebpackPlugin = require('copy-webpack-plugin')
+ const languages = require('../i18n')
+ const config = require('./config')
+ 
+-process.env.BASE_API = process.env.BASE_API || 'http://localhost:4000/api/v1'
++process.env.BASE_API = process.env.BASE_API || 'http://render-api.integratedanimations.com/api'
+ 
+ let definePluginArgs = {
+   'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV),

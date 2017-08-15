@@ -15,10 +15,6 @@ export default class RoutingWrapper extends Component {
 		store: PropTypes.object
 	}
 
-	componentWillMount () {
-		this.auth()
-	}
-
 	/**
     * Checks Auth logic. Is user allowed to visit certain path?
     * @param  {String} path next path to visit
@@ -30,22 +26,13 @@ export default class RoutingWrapper extends Component {
 		const state = store.getState()
 		const {isLoggedIn} = state.me.auth
 		const authPath = '/auth'
-		const allowedToVisitPath = [authPath]
+		const allowedToVisitPath = [authPath, '/']
 		if (isLoggedIn && path === authPath) {
 			return false
 		} else if (!isLoggedIn && !allowedToVisitPath.includes(path)) {
 			return false
 		}
 		return true
-	}
-
-	auth () {
-		const {store} = this.props
-		store.dispatch({type: AUTH_PENDING})
-		const result = AUTH()
-			.then((result) => {
-				return store.dispatch(result)
-			})
 	}
 
 	render () {

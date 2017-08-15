@@ -16,11 +16,12 @@ export default class SidebarComponent extends Component {
 		open: PropTypes.bool.isRequired,
 		logout: PropTypes.func.isRequired,
 		routing: PropTypes.array.isRequired,
-		isMobile: PropTypes.bool.isRequired
+		isMobile: PropTypes.bool.isRequired,
+		isLoggedIn: PropTypes.bool.isRequired
 	}
 
 	render () {
-		const {open, logout, routing, isMobile} = this.props
+		const {open, logout, routing, isMobile, isLoggedIn} = this.props
 
 		const sidebarProps = {
 			visible: open || !isMobile,
@@ -75,10 +76,12 @@ export default class SidebarComponent extends Component {
 				</SidebarLogoContainer>
 				{routes}
 				<Spacer />
-				<SidebarLogoutItem onClick={logout}>
-					<Icon name="sign out" />
-					Logout
-				</SidebarLogoutItem>
+				{
+					isLoggedIn && <SidebarLogoutItem onClick={logout}>
+						<Icon name="sign out" />
+						Logout
+					</SidebarLogoutItem>
+				}
 			</StyledSidebar>
 		)
 	}

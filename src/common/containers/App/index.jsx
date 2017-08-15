@@ -160,6 +160,7 @@ class App extends Component {
 
 		const sidebarProps = {
 			isMobile,
+			isLoggedIn,
 			logout,
 			open: sidebarOpened,
 			routing: sidebarRouting
@@ -185,7 +186,7 @@ class App extends Component {
 		//   Please, check: https://github.com/styled-components/styled-components/issues/439 */}
 		//   {/* <SidebarSemanticPusherStyled style={SidebarSemanticPusherStyleProps}> */}
 		const SidebarSemanticPusherStyledPatch =
-			!isMobile && isLoggedIn
+			!isMobile
 				? SidebarSemanticPusherStyled.extend`
 						max-width: calc(100% - 150px);
 					`
@@ -194,7 +195,7 @@ class App extends Component {
 		return (
 			<PageLayout>
 				<SidebarSemanticPushableStyled>
-					{isLoggedIn && <Sidebar {...sidebarProps}/>}
+					<Sidebar {...sidebarProps}/>
 					<SidebarSemanticPusherStyledPatch>
 						<StyledDimmer {...dimmerProps}/>
 						<Header {...headerProps}/>
