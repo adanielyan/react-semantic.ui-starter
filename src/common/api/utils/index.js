@@ -2,7 +2,6 @@ import feathers from 'feathers-client'
 import socketio from 'feathers-socketio/client'
 import io from 'socket.io-client'
 import auth from 'feathers-authentication-client'
-import storage from 'localstorage-memory'
 
 const host = 'http://localhost:3030'
 const socket = io(host)
@@ -13,7 +12,7 @@ export {normalizeArrayOfItems} from './normalize'
 export const app = feathers()
 	.configure(feathers.hooks())
 	.configure(socketio(socket))
-	.configure(auth({ storage }))
+	.configure(auth({ storage: localStorage }))
 
 export const usersService = app.service('users')
 export const recipesService = app.service('recipes')
