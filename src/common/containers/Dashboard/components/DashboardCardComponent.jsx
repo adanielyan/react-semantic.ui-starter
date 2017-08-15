@@ -7,11 +7,11 @@ export default class DashboardCardComponent extends Component {
 		title: PropTypes.string,
 		body: PropTypes.string,
 		userId: PropTypes.number,
-		id: PropTypes.number
+		uuid: PropTypes.number
 	}
 
 	render () {
-		const {title, body, id} = this.props
+		const {title, body, uuid} = this.props
 		return (
 			<Card raised>
 				<Image alt="Dummy image" src={require('images/dummy.png')} />
@@ -21,7 +21,7 @@ export default class DashboardCardComponent extends Component {
 					</Card.Header>
 					<Card.Meta>
 						<span className="date">
-							Post `id` is {id}
+							Post `id` is {uuid}
 						</span>
 					</Card.Meta>
 					<Card.Description>

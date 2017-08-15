@@ -35,17 +35,14 @@ export function posts (state = initialState, action) {
 	}
 	case GET_POSTS_SUCCESS:
 		const {result} = action
-		// @Metnew:
-		// result may be an object, if it was request with params
-		// `normalizeArrayOfItems` normalize only arrays of items!
-		const {count, entities} = normalizeArrayOfItems([result])
+		// const {count, entities} = normalizeArrayOfItems([result])
 		return {
 			isLoaded: true,
 			isLoading: false,
 			fetchStatus: 'loaded',
 			errors: {},
-			count,
-			entities
+			count: result.total,
+			entities: result.data
 		}
 	case GET_POSTS_FAIL:
 		return {
