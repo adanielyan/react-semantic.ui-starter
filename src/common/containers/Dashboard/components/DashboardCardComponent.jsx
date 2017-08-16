@@ -25,7 +25,7 @@ export default class DashboardCardComponent extends Component {
 						</span>
 					</Card.Meta>
 					<Card.Description>
-						{body}
+						{body.split(' ').slice(0, 50).join(' ')} ...
 					</Card.Description>
 				</Card.Content>
 				<Card.Content extra>
