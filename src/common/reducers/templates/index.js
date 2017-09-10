@@ -1,8 +1,8 @@
 import {
 	LOCATION_CHANGE,
-	GET_POSTS_SUCCESS,
-	GET_POSTS_PENDING,
-	GET_POSTS_FAIL
+	GET_TEMPLATES_SUCCESS,
+	GET_TEMPLATES_PENDING,
+	GET_TEMPLATES_FAIL
 } from 'actions'
 import {normalizeArrayOfItems} from 'api/utils'
 
@@ -15,7 +15,7 @@ export const initialState = {
 	count: 0
 }
 
-export function posts (state = initialState, action) {
+export function templates (state = initialState, action) {
 	switch (action.type) {
 	case LOCATION_CHANGE: {
 		const {pathname} = action.payload
@@ -24,7 +24,7 @@ export function posts (state = initialState, action) {
 		}
 		return state
 	}
-	case GET_POSTS_PENDING: {
+	case GET_TEMPLATES_PENDING: {
 		return {
 			...state,
 			errors: {},
@@ -33,7 +33,7 @@ export function posts (state = initialState, action) {
 			fetchStatus: 'loading'
 		}
 	}
-	case GET_POSTS_SUCCESS:
+	case GET_TEMPLATES_SUCCESS:
 		const {result} = action
 		// const {count, entities} = normalizeArrayOfItems([result])
 		return {
@@ -44,7 +44,7 @@ export function posts (state = initialState, action) {
 			count: result.total,
 			entities: result.data
 		}
-	case GET_POSTS_FAIL:
+	case GET_TEMPLATES_FAIL:
 		return {
 			...state,
 			isLoaded: true,

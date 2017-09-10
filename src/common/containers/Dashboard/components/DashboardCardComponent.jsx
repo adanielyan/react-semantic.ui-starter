@@ -21,7 +21,7 @@ export default class DashboardCardComponent extends Component {
 					</Card.Header>
 					<Card.Meta>
 						<span className="date">
-							Post `id` is {uuid}
+							Template `id` is {uuid}
 						</span>
 					</Card.Meta>
 					<Card.Description>

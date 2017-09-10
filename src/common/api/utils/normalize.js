@@ -4,8 +4,8 @@ import _ from 'lodash'
 // NOTE: Normalization w/o normalizr may look like (very simple example): 
 // let normalizedData = {}
 // for (let i = 0; i < result.length; i++) {
-//   const post = result[i]
-//   normalizedData[post.id] = post
+//   const template = result[i]
+//   normalizedData[template.id] = template
 // }
 //
 // XXX: normalization is recommended, but not a must

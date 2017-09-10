@@ -5,32 +5,32 @@ import {Loader} from 'semantic-ui-react'
 import {Helmet} from 'react-helmet'
 //
 import DashboardComponent from './components'
-import {GET_POSTS} from 'actions/posts'
+import {GET_TEMPLATES} from 'actions/templates'
 
 class Dashboard extends Component {
 	static propTypes = {
-		posts: PropTypes.object,
-		postsLoaded: PropTypes.bool,
-		postsLoading: PropTypes.bool,
+		templates: PropTypes.object,
+		templatesLoaded: PropTypes.bool,
+		templatesLoading: PropTypes.bool,
 		count: PropTypes.number,
-		getPosts: PropTypes.func.isRequired
+		getTemplates: PropTypes.func.isRequired
 	}
 
 	componentWillMount () {
-		this.props.getPosts()
+		this.props.getTemplates()
 	}
 
 	render () {
-		const {posts, postsLoaded, postsLoading, count} = this.props
+		const {templates, templatesLoaded, templatesLoading, count} = this.props
 
 		return (
 			<div>
 				<Helmet>
 					<title>Dashboard</title>
 				</Helmet>
-				{postsLoaded
+				{templatesLoaded
 					? <DashboardComponent
-						{...{posts, postsLoaded, postsLoading, count}}
+						{...{templates, templatesLoaded, templatesLoading, count}}
 					/>
 					: <Loader active>Loading...</Loader>}
 			</div>
@@ -39,24 +39,24 @@ class Dashboard extends Component {
 }
 
 function mapStateToProps (state) {
-	const {posts} = state.entities
-	const postsLoaded = posts.isLoaded
-	const postsLoading = posts.isLoading
-	const items = posts.entities
-	const {count} = posts
+	const {templates} = state.entities
+	const templatesLoaded = templates.isLoaded
+	const templatesLoading = templates.isLoading
+	const items = templates.entities
+	const {count} = templates
 
 	return {
-		posts: items,
-		postsLoading,
-		postsLoaded,
+		templates: items,
+		templatesLoading,
+		templatesLoaded,
 		count
 	}
 }
 
 function mapDispatchToProps (dispatch) {
 	return {
-		getPosts: async () => {
-			const result = await GET_POSTS()
+		getTemplates: async (query) => {
+			const result = await GET_TEMPLATES(query)
 			return dispatch(result)
 		}
 	}

@@ -5,13 +5,13 @@ import * as actions from 'actions'
 const middlewares = [thunk]
 const mockStore = configureMockStore(middlewares)
 
-describe('POSTS actions', () => {
-	it('creates GET_POSTS_SUCCESS when GET_POSTS was successful', done => {
+describe('TEMPLATES actions', () => {
+	it('creates GET_TEMPLATES_SUCCESS when GET_TEMPLATES was successful', done => {
 		const store = mockStore({})
-		return store.dispatch(actions.GET_POSTS).then(res => {
+		return store.dispatch(actions.GET_TEMPLATES).then(res => {
 			const {result} = res
 			const expectedAction = {
-				type: actions.GET_POSTS_SUCCESS,
+				type: actions.GET_TEMPLATES_SUCCESS,
 				result
 			}
 

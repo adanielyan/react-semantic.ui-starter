@@ -1,14 +1,14 @@
 /* eslint-disable */
-import {posts as reducer, initialState} from 'reducers/posts'
+import {templates as reducer, initialState} from 'reducers/templates'
 import * as actions from 'actions'
 
-const GET_POSTS_SUCCESS = {
-	type: actions.GET_POSTS_SUCCESS,
+const GET_TEMPLATES_SUCCESS = {
+	type: actions.GET_TEMPLATES_SUCCESS,
 	result: [{id: 1, lol: 1}]
 }
 
-const GET_POSTS_FAIL = {
-	type: actions.GET_POSTS_FAIL,
+const GET_TEMPLATES_FAIL = {
+	type: actions.GET_TEMPLATES_FAIL,
 	errors: {
 		ohMyGodThatsError: {
 			xxx: 1
@@ -16,8 +16,8 @@ const GET_POSTS_FAIL = {
 	}
 }
 
-const GET_POSTS_PENDING = {
-	type: actions.GET_POSTS_PENDING
+const GET_TEMPLATES_PENDING = {
+	type: actions.GET_TEMPLATES_PENDING
 }
 
 const LOCATION_CHANGE_TO_INBOX = {
@@ -27,13 +27,13 @@ const LOCATION_CHANGE_TO_INBOX = {
 	}
 }
 
-describe('POSTS REDUCER', () => {
+describe('TEMPLATES REDUCER', () => {
 	it('should return the initial state', () => {
 		expect(reducer(undefined, {x: 'string'})).toEqual(initialState)
 	})
 
-	it('should handle GET_POSTS_PENDING', () => {
-		expect(reducer(initialState, GET_POSTS_PENDING)).toEqual({
+	it('should handle GET_TEMPLATES_PENDING', () => {
+		expect(reducer(initialState, GET_TEMPLATES_PENDING)).toEqual({
 			...initialState,
 			errors: {},
 			isLoaded: false,
@@ -42,8 +42,8 @@ describe('POSTS REDUCER', () => {
 		})
 	})
 
-	it('should handle GET_POSTS_SUCCESS', () => {
-		expect(reducer(initialState, GET_POSTS_SUCCESS)).toEqual({
+	it('should handle GET_TEMPLATES_SUCCESS', () => {
+		expect(reducer(initialState, GET_TEMPLATES_SUCCESS)).toEqual({
 			...initialState,
 			isLoaded: true,
 			isLoading: false,
@@ -59,8 +59,8 @@ describe('POSTS REDUCER', () => {
 		})
 	})
 
-	it('should handle GET_POSTS_FAIL', () => {
-		expect(reducer(initialState, GET_POSTS_FAIL)).toEqual({
+	it('should handle GET_TEMPLATES_FAIL', () => {
+		expect(reducer(initialState, GET_TEMPLATES_FAIL)).toEqual({
 			...initialState,
 			isLoaded: true,
 			isLoading: false,

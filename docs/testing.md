@@ -21,7 +21,7 @@ Jest configuration in `jest_config/jest.config.json` looks like:
     "^actions/auth$": "<rootDir>/src/common/actions/auth",
     "^actions/common$": "<rootDir>/src/common/actions/common",
     "^actions/layout$": "<rootDir>/src/common/actions/layout",
-    "^actions/posts$": "<rootDir>/src/common/actions/posts",
+    "^actions/templates$": "<rootDir>/src/common/actions/templates",
     "^actions/users$": "<rootDir>/src/common/actions/users",
 
     "^api": "<rootDir>/src/common/api",
@@ -29,7 +29,7 @@ Jest configuration in `jest_config/jest.config.json` looks like:
     "^reducers$": "<rootDir>/src/common/reducers",
     "^reducers/auth$": "<rootDir>/src/common/reducers/auth",
     "^reducers/layout$": "<rootDir>/src/common/reducers/layout",
-    "^reducers/posts$": "<rootDir>/src/common/reducers/posts",
+    "^reducers/templates$": "<rootDir>/src/common/reducers/templates",
     "^reducers/users$": "<rootDir>/src/common/reducers/users",
 
     "^routing$": "<rootDir>/src/common/routing",

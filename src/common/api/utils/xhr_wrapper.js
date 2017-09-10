@@ -1,6 +1,6 @@
 // Request utils,
 // Feel free to replace with your code
-// (get, post are used in ApiServices)
+// (get, template are used in ApiServices)
 
 import {getLocalToken, resetLocalToken} from 'api/LocalStorageCookiesSvc'
 

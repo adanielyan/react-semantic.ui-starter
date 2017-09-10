@@ -58,14 +58,14 @@ base.module.rules.push({
 	test: /\.css$/,
 	use: ExtractTextPlugin.extract({
 		fallback: 'style-loader',
-		use: ['css-loader', 'postcss-loader']
+		use: ['css-loader', 'templatecss-loader']
 	})
 },
 {
 	test: /\.scss$/,
 	use: ExtractTextPlugin.extract({
 		fallback: 'style-loader',
-		use: ['css-loader', 'postcss-loader', 'sass-loader']
+		use: ['css-loader', 'templatecss-loader', 'sass-loader']
 	})
 })
 

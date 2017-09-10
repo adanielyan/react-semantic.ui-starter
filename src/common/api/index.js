@@ -1,5 +1,5 @@
 export * from './AuthSvc'
 export * from './LocalStorageCookiesSvc'
-export * from './PostsSvc'
+export * from './TemplatesSvc'
 export * from './UsersSvc'
 export * from './utils'

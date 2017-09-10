@@ -6,30 +6,30 @@ import DashboardCardComponent from './DashboardCardComponent'
 
 export default class DashboardComponent extends Component {
 	static propTypes = {
-		posts: PropTypes.object,
-		postsLoaded: PropTypes.bool,
-		postsLoading: PropTypes.bool,
+		templates: PropTypes.object,
+		templatesLoaded: PropTypes.bool,
+		templatesLoading: PropTypes.bool,
 		count: PropTypes.number
 	}
 
 	shouldComponentUpdate (nextProps) {
-		const {posts} = this.props
-		const nextPosts = nextProps.posts
-		return !_.isEqual(posts, nextPosts)
+		const {templates} = this.props
+		const nextTemplates = nextProps.templates
+		return !_.isEqual(templates, nextTemplates)
 	}
 
 	render () {
-		// {count, postsLoading}
-		const {posts, postsLoaded} = this.props
+		// {count, templatesLoading}
+		const {templates, templatesLoaded} = this.props
 
 		return (
 			<Grid columns={1}>
 				<Grid.Row centered>
 					<Grid.Column width={16}>
-						{postsLoaded &&
+						{templatesLoaded &&
 							<Card.Group itemsPerRow={3} doubling stackable>
-								{_.map(posts, (post, i) =>
-									<DashboardCardComponent {...post} key={i} />
+								{_.map(templates, (template, i) =>
+									<DashboardCardComponent {...template} key={i} />
 								)}
 							</Card.Group>}
 					</Grid.Column>

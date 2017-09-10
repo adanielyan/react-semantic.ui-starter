@@ -6,7 +6,7 @@ import chalk from 'chalk'
 const router = Router()
 
 // Define the home page route
-router.post('/', (req, res) => {
+router.template('/', (req, res) => {
 	// Const {username, password} = req.body
 	const data = {username: 'cool_username_for_testing'}
 	jwt.sign(data, process.env.JWT_SECRET, {expiresIn: '7d'}, (err, token) => {

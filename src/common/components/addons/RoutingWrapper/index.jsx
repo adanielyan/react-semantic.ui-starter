@@ -1,7 +1,6 @@
 import React, {Component} from 'react'
 import PropTypes from 'prop-types'
 import {Switch, Redirect} from 'react-router-dom'
-import {AUTH, AUTH_PENDING} from 'actions'
 import LazyLoad from 'components/addons/LazyLoad'
 
 /**

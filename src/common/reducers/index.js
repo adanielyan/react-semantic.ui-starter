@@ -2,7 +2,7 @@ import {combineReducers} from 'redux'
 import {routerReducer} from 'react-router-redux'
 
 import {layout} from './layout'
-import {posts} from './posts'
+import {templates} from './templates'
 import {users} from './users'
 import {auth} from './auth'
 
@@ -11,7 +11,7 @@ export default combineReducers({
 	layout,
 	me: combineReducers({auth}),
 	entities: combineReducers({
-		posts,
+		templates,
 		users
 	}),
 	routing: routerReducer

@@ -1,4 +1,3 @@
-import {app, authenticate} from 'api'
 import {
 	LOGIN_AUTH_FAIL,
 	AUTH_FAIL,
