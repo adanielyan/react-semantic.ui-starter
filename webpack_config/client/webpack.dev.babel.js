@@ -10,8 +10,8 @@ const loaders = {
 	style: {loader: 'style-loader'},
 	css: {loader: 'css-loader', options: {sourceMap: true}},
 	resolve: 'resolve-url-loader',
-	templatecss: {
-		loader: 'templatecss-loader',
+	postcss: {
+		loader: 'postcss-loader',
 		options: {
 			sourceMap: true
 		}
@@ -23,14 +23,14 @@ baseWebpackConfig.devtool = 'eval-source-map'
 baseWebpackConfig.module.rules.push(
 	{
 		test: /\.css$/,
-		loaders: [loaders.style, loaders.css, loaders.templatecss, loaders.resolve]
+		loaders: [loaders.style, loaders.css, loaders.postcss, loaders.resolve]
 	},
 	{
 		test: /\.scss$/,
 		loaders: [
 			loaders.style,
 			loaders.css,
-			loaders.templatecss,
+			loaders.postcss,
 			loaders.resolve,
 			loaders.sass
 		]

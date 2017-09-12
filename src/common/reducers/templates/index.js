@@ -12,7 +12,9 @@ export const initialState = {
 	fetchStatus: 'none',
 	isLoading: false,
 	isLoaded: false,
-	count: 0
+	count: 0,
+	pages: 1,
+	page: 1
 }
 
 export function templates (state = initialState, action) {
@@ -42,6 +44,8 @@ export function templates (state = initialState, action) {
 			fetchStatus: 'loaded',
 			errors: {},
 			count: result.total,
+			pages: result.pages,
+			page: result.page,
 			entities: result.data
 		}
 	case GET_TEMPLATES_FAIL:

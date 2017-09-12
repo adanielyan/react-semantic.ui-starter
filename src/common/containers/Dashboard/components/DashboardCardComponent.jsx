@@ -7,7 +7,7 @@ export default class DashboardCardComponent extends Component {
 		title: PropTypes.string,
 		body: PropTypes.string,
 		userId: PropTypes.number,
-		uuid: PropTypes.number
+		uuid: PropTypes.string
 	}
 
 	render () {

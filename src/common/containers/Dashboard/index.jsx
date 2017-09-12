@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import PropTypes from 'prop-types'
-import {Loader} from 'semantic-ui-react'
+import {Loader, Menu} from 'semantic-ui-react'
 import {Helmet} from 'react-helmet'
 //
 import DashboardComponent from './components'
@@ -13,6 +13,8 @@ class Dashboard extends Component {
 		templatesLoaded: PropTypes.bool,
 		templatesLoading: PropTypes.bool,
 		count: PropTypes.number,
+		pages: PropTypes.number,
+		page: PropTypes.number,
 		getTemplates: PropTypes.func.isRequired
 	}
 
@@ -21,7 +23,7 @@ class Dashboard extends Component {
 	}
 
 	render () {
-		const {templates, templatesLoaded, templatesLoading, count} = this.props
+		const {templates, templatesLoaded, templatesLoading, getTemplates, count, pages, page} = this.props
 
 		return (
 			<div>
@@ -30,7 +32,7 @@ class Dashboard extends Component {
 				</Helmet>
 				{templatesLoaded
 					? <DashboardComponent
-						{...{templates, templatesLoaded, templatesLoading, count}}
+						{...{templates, templatesLoaded, templatesLoading, count, pages, page, getTemplates}}
 					/>
 					: <Loader active>Loading...</Loader>}
 			</div>
@@ -43,13 +45,15 @@ function mapStateToProps (state) {
 	const templatesLoaded = templates.isLoaded
 	const templatesLoading = templates.isLoading
 	const items = templates.entities
-	const {count} = templates
+	const {count, pages, page} = templates
 
 	return {
 		templates: items,
 		templatesLoading,
 		templatesLoaded,
-		count
+		count,
+		pages,
+		page
 	}
 }
 
