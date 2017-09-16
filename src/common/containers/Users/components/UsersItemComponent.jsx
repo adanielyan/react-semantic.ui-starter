@@ -6,39 +6,23 @@ import {StyledUserItem} from './style'
 
 export default class UsersItemComponent extends Component {
 	static propTypes = {
-		name: PropTypes.string,
-		address: PropTypes.object,
 		email: PropTypes.string,
-		website: PropTypes.string,
-		phone: PropTypes.string,
-		id: PropTypes.number,
-		item: PropTypes.object
+		_id: PropTypes.number
 	}
 
 	render () {
-		const {name, address, email, website, phone, id} = this.props
+		const {email, _id} = this.props
 
 		return (
-			<StyledUserItem as={Link} to={`/users/${id}`}>
-				<Statistic floated="left" value={id} label={'User ID'} />
+			<StyledUserItem as={Link} to={`/users/${_id}`}>
+				<Statistic floated="left" value={_id} label={'User ID'} />
 				<Item.Content>
 					<Item.Header>
-						{`${name} "${email}"`}
+						{`${email}`}
 					</Item.Header>
-					<Item.Meta>
-						<span>
-							{phone}
-						</span>
-					</Item.Meta>
-					<Item.Description>
-						{address.city} {address.street}
-					</Item.Description>
 					<Item.Extra>
 						<Label>
-							{email}
-						</Label>
-						<Label>
-							{website}
+							{_id}
 						</Label>
 					</Item.Extra>
 				</Item.Content>

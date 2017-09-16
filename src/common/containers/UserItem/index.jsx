@@ -6,7 +6,7 @@ import {Helmet} from 'react-helmet'
 import {Loader} from 'semantic-ui-react'
 //
 import UserItemComponent from './components'
-import {GET_USERS, GET_USERS_PENDING} from 'actions/users'
+import {GET_USER, GET_USER_PENDING} from 'actions/users'
 
 class UserItem extends Component {
 	static propTypes = {
@@ -31,7 +31,7 @@ class UserItem extends Component {
 			<div>
 				<Helmet>
 					<title>
-						{`React-Semantic.UI-Starter: ${isLoaded ? `${user.name}` : 'User'}`}
+						{`React-Semantic.UI-Starter: ${isLoaded ? `${user.email}` : 'User'}`}
 					</title>
 				</Helmet>
 				{isLoaded
@@ -46,7 +46,7 @@ function mapStateToProps (state, props) {
 	const {users} = state.entities
 	const {id} = props.match.params
 	const {entities, isLoaded, isLoading} = users
-	const user = entities ? entities[id] : {}
+	const user = entities ? entities.filter(entity => entity._id === id)[0] : {}
 	return {
 		user,
 		userId: id,
@@ -57,9 +57,9 @@ function mapStateToProps (state, props) {
 
 function mapDispatchToProps (dispatch) {
 	return {
-		getUsers: async id => {
-			dispatch({type: GET_USERS_PENDING})
-			const result = await GET_USERS(id)
+		getUser: async id => {
+			dispatch({type: GET_USER_PENDING})
+			const result = await GET_USER(id)
 			return dispatch(result)
 		}
 	}

@@ -12,17 +12,11 @@ class UsersItemComponent extends Component {
 		const {user} = this.props
 		return (
 			<Card>
-				<Image alt={`${user.name}`} src={require('images/daniel.jpg')}/>
+				<Image alt={`${user.email}`} src={require('images/daniel.jpg')}/>
 				<Card.Content>
 					<Card.Header>
-						{user.name}
+						{user._id}
 					</Card.Header>
-					<Card.Meta>
-						{user.email}
-					</Card.Meta>
-					<Card.Description>
-						{user.company.catchPhrase}
-					</Card.Description>
 				</Card.Content>
 				<Card.Content extra>
 					<a>

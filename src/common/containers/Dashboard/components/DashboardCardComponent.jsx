@@ -6,15 +6,18 @@ export default class DashboardCardComponent extends Component {
 	static propTypes = {
 		title: PropTypes.string,
 		body: PropTypes.string,
+		field_resolutions_and_prices: PropTypes.arrayOf(PropTypes.object),
+		field_image: PropTypes.array,
 		userId: PropTypes.number,
 		uuid: PropTypes.string
 	}
 
 	render () {
-		const {title, body, uuid} = this.props
+		const {title, body, uuid, field_image} = this.props
+		const imgSrc = field_image && field_image[0] ? field_image[0].uri : require('images/dummy.png')
 		return (
 			<Card raised>
-				<Image alt="Dummy image" src={require('images/dummy.png')} />
+				<Image alt="Dummy image" src={imgSrc} />
 				<Card.Content>
 					<Card.Header>
 						{title}
@@ -31,10 +34,10 @@ export default class DashboardCardComponent extends Component {
 				<Card.Content extra>
 					<div className="ui two buttons">
 						<Button basic color="green" disabled>
-							Approve
+							More info
 						</Button>
 						<Button basic color="red" disabled>
-							Decline
+							Create my own
 						</Button>
 					</div>
 				</Card.Content>

@@ -2,7 +2,10 @@ import {
 	LOCATION_CHANGE,
 	GET_USERS_SUCCESS,
 	GET_USERS_FAIL,
-	GET_USERS_PENDING
+	GET_USERS_PENDING,
+	GET_USER_SUCCESS,
+	GET_USER_FAIL,
+	GET_USER_PENDING
 } from 'actions'
 import {normalizeArrayOfItems} from 'api/utils'
 
@@ -40,18 +43,20 @@ export function users (state = initialState, action) {
 		// @Metnew:
 		// result may be an object, if it was request with params
 		// `normalizeArrayOfItems` normalize only arrays of items!
-		const {count, entities} = normalizeArrayOfItems([result])
+		// const {count, entities} = normalizeArrayOfItems([result])
 		// Normalizr here
 		return {
 			...state,
 			isLoaded: true,
 			isLoading: false,
 			fetchStatus: 'loaded',
-			entities,
-			count
+			count: result.total,
+			limit: result.limit,
+			skip: result.skip,
+			entities: result.data
 		}
 	}
-	case GET_USERS_FAIL:
+	case GET_USERS_FAIL: {
 		return {
 			...state,
 			errors: action.errors,
@@ -59,6 +64,43 @@ export function users (state = initialState, action) {
 			isLoading: false,
 			fetchStatus: 'loaded'
 		}
+	}
+	case GET_USER_PENDING: {
+		return {
+			...state,
+			errors: {},
+			isLoaded: false,
+			isLoading: true,
+			fetchStatus: 'loading'
+		}
+	}
+	case GET_USER_SUCCESS: {
+		const {result} = action
+		// @Metnew:
+		// result may be an object, if it was request with params
+		// `normalizeArrayOfItems` normalize only arrays of items!
+		// const {count, entities} = normalizeArrayOfItems([result])
+		// Normalizr here
+		return {
+			...state,
+			isLoaded: true,
+			isLoading: false,
+			fetchStatus: 'loaded',
+			count: result.total,
+			limit: result.limit,
+			skip: result.skip,
+			entities: result.data
+		}
+	}
+	case GET_USER_FAIL: {
+		return {
+			...state,
+			errors: action.errors,
+			isLoaded: true,
+			isLoading: false,
+			fetchStatus: 'loaded'
+		}
+	}
 	default:
 		return state
 	}
