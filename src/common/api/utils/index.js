@@ -6,7 +6,7 @@ import auth from 'feathers-authentication-client'
 const host = 'http://localhost:3030'
 const socket = io(host)
 
-// EXPORT NORMALIZE STUFF!
+// EXPORT OTHER UTILS!
 export {normalizeArrayOfItems} from './normalize'
 
 export const app = feathers()

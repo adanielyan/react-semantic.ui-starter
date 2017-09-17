@@ -12,29 +12,29 @@ class UserItem extends Component {
 	static propTypes = {
 		user: PropTypes.object,
 		userId: PropTypes.string,
-		getUsers: PropTypes.func,
-		isLoaded: PropTypes.bool,
-		isLoading: PropTypes.bool
+		getUser: PropTypes.func,
+		isUserLoaded: PropTypes.bool,
+		isUserLoading: PropTypes.bool
 	}
 
 	componentWillMount () {
-		const {isLoaded, userId} = this.props
-		if (!isLoaded) {
-			this.props.getUsers(userId)
+		const {isUserLoaded, userId} = this.props
+		if (!isUserLoaded || (isUserLoaded && userId !== this.props.user._id)) {
+			this.props.getUser(userId)
 		}
 	}
 
 	render () {
-		const {user, isLoaded} = this.props
-		const props = {user, isLoaded}
+		const {user, isUserLoaded} = this.props
+		const props = {user, isUserLoaded}
 		return (
 			<div>
 				<Helmet>
 					<title>
-						{`React-Semantic.UI-Starter: ${isLoaded ? `${user.email}` : 'User'}`}
+						{`React-Semantic.UI-Starter: ${isUserLoaded ? `${user.email}` : 'User'}`}
 					</title>
 				</Helmet>
-				{isLoaded
+				{isUserLoaded
 					? <UserItemComponent {...props}/>
 					: <Loader active>Loading...</Loader>}
 			</div>
@@ -43,15 +43,17 @@ class UserItem extends Component {
 }
 
 function mapStateToProps (state, props) {
-	const {users} = state.entities
+	const {user} = state.entities
 	const {id} = props.match.params
-	const {entities, isLoaded, isLoading} = users
-	const user = entities ? entities.filter(entity => entity._id === id)[0] : {}
+	const {entities, isLoaded, isLoading} = user
+	const usr = entities
+	const isUserLoading = user.isLoading
+	const isUserLoaded = user.isLoaded
 	return {
-		user,
+		user: usr,
 		userId: id,
-		isLoading,
-		isLoaded
+		isUserLoading,
+		isUserLoaded
 	}
 }
 

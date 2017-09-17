@@ -1,22 +1,23 @@
 import React, {Component} from 'react'
 import PropTypes from 'prop-types'
 import {Card, Image, Button} from 'semantic-ui-react'
+import {Link} from 'react-router-dom'
 
 export default class DashboardCardComponent extends Component {
 	static propTypes = {
 		title: PropTypes.string,
 		body: PropTypes.string,
-		field_resolutions_and_prices: PropTypes.arrayOf(PropTypes.object),
-		field_image: PropTypes.array,
+		resolutionsAndPrices: PropTypes.arrayOf(PropTypes.object),
+		image: PropTypes.array,
 		userId: PropTypes.number,
 		uuid: PropTypes.string
 	}
 
 	render () {
-		const {title, body, uuid, field_image} = this.props
-		const imgSrc = field_image && field_image[0] ? field_image[0].uri : require('images/dummy.png')
+		const {title, body, uuid, image} = this.props
+		const imgSrc = image && image[0] ? image[0].uri : require('images/dummy.png')
 		return (
-			<Card raised>
+			<Card raised as={Link} to={`/templates/${uuid}`}>
 				<Image alt="Dummy image" src={imgSrc} />
 				<Card.Content>
 					<Card.Header>
