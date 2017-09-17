@@ -57,6 +57,14 @@ export const routes = [
 		exact: true,
 		tag: RouteAuth,
 		component: loadLazyComponent('UserItem')
+	},
+	{
+		path: '/templates/:id',
+		name: 'Template',
+		lazy: true,
+		exact: true,
+		tag: Route,
+		component: loadLazyComponent('UserItem')
 	}
 ]
 
