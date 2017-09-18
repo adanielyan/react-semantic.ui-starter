@@ -10,10 +10,10 @@ const loadLazyComponent = url => {
 		// NOTE: there isn't any duplication here
 		// Read Webpack docs about code-splitting for more info.
 		if (process.env.BROWSER) {
-			const loadComponent = await import(/* webpackMode: "lazy-once", webpackChunkName: "lazy-containers" */ `containers/${url}/index.jsx`)
+			const loadComponent = await import(/* webpackMode: "lazy-once", webpackChunkName: "lazy-containers" */ `containers/${url}`)
 			return loadComponent
 		}
-		const loadComponent = await import(/* webpackMode: "eager", webpackChunkName: "lazy-containers" */ `containers/${url}/index.jsx`)
+		const loadComponent = await import(/* webpackMode: "eager", webpackChunkName: "lazy-containers" */ `containers/${url}`)
 		return loadComponent
 	}
 }
@@ -25,6 +25,13 @@ export const routes = [
 		icon: 'newspaper',
 		name: 'Dashboard',
 		sidebarVisible: true,
+		tag: RouteAuth,
+		component: Dashboard
+	},
+	{
+		path: '/templates/:page',
+		exact: true,
+		name: 'Dashboard',
 		tag: RouteAuth,
 		component: Dashboard
 	},
@@ -59,12 +66,12 @@ export const routes = [
 		component: loadLazyComponent('UserItem')
 	},
 	{
-		path: '/templates/:id',
+		path: '/template/:id',
 		name: 'Template',
 		lazy: true,
 		exact: true,
 		tag: Route,
-		component: loadLazyComponent('UserItem')
+		component: loadLazyComponent('Dashboard/components/DashboardCardComponent')
 	}
 ]
 

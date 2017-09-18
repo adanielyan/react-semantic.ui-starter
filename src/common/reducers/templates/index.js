@@ -21,7 +21,7 @@ export function templates (state = initialState, action) {
 	switch (action.type) {
 	case LOCATION_CHANGE: {
 		const {pathname} = action.payload
-		if (pathname !== '/') {
+		if (pathname !== '/' && !(/\/templates/g.test(pathname))) {
 			return initialState
 		}
 		return state

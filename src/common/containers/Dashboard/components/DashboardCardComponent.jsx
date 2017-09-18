@@ -17,7 +17,7 @@ export default class DashboardCardComponent extends Component {
 		const {title, body, uuid, image} = this.props
 		const imgSrc = image && image[0] ? image[0].uri : require('images/dummy.png')
 		return (
-			<Card raised as={Link} to={`/templates/${uuid}`}>
+			<Card raised as={Link} to={`/template/${uuid}`}>
 				<Image alt="Dummy image" src={imgSrc} />
 				<Card.Content>
 					<Card.Header>

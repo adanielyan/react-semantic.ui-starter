@@ -1,11 +1,12 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import PropTypes from 'prop-types'
-import {Loader, Menu} from 'semantic-ui-react'
+import {Loader, Menu, Grid} from 'semantic-ui-react'
 import {Helmet} from 'react-helmet'
 //
 import DashboardComponent from './components'
-import {GET_TEMPLATES} from 'actions/templates'
+import Pager from 'components/elements/Pager'
+import {GET_TEMPLATES, GET_TEMPLATES_PENDING} from 'actions/templates'
 
 class Dashboard extends Component {
 	static propTypes = {
@@ -19,7 +20,20 @@ class Dashboard extends Component {
 	}
 
 	componentWillMount () {
-		this.props.getTemplates()
+		this.props.getTemplates({
+			query: {
+				page: this.props.page || 1
+			}
+		})
+	}
+
+	handlePageClick (e, {name}) {
+		// const skip = (parseInt(name) - 1) * itemsPerPage
+		this.props.getTemplates({
+			query: {
+				page: name
+			}
+		})
 	}
 
 	render () {
@@ -31,21 +45,33 @@ class Dashboard extends Component {
 					<title>Dashboard</title>
 				</Helmet>
 				{templatesLoaded
-					? <DashboardComponent
-						{...{templates, templatesLoaded, templatesLoading, count, pages, page, getTemplates}}
-					/>
+					? <Grid columns={1}>
+						<Grid.Row centered>
+							<Grid.Column width={16}>
+								<DashboardComponent
+									{...{templates, templatesLoaded, templatesLoading, count, pages, page, getTemplates}}
+								/>
+							</Grid.Column>
+						</Grid.Row>
+						<Grid.Row centered>
+							<Grid.Column width={16}>
+								<Pager totalPages={pages} pathPrefix="templates" currentPage={parseInt(page) || 1} />
+							</Grid.Column>
+						</Grid.Row>
+					</Grid>
 					: <Loader active>Loading...</Loader>}
 			</div>
 		)
 	}
 }
 
-function mapStateToProps (state) {
+function mapStateToProps (state, props) {
 	const {templates} = state.entities
 	const templatesLoaded = templates.isLoaded
 	const templatesLoading = templates.isLoading
 	const items = templates.entities
-	const {count, pages, page} = templates
+	const {count, pages} = templates
+	const {page} = props.match.params || 1
 
 	return {
 		templates: items,
@@ -60,6 +86,7 @@ function mapStateToProps (state) {
 function mapDispatchToProps (dispatch) {
 	return {
 		getTemplates: async (query) => {
+			dispatch({type: GET_TEMPLATES_PENDING})
 			const result = await GET_TEMPLATES(query)
 			return dispatch(result)
 		}

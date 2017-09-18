@@ -1,18 +1,20 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { Menu } from 'semantic-ui-react'
+import {Link} from 'react-router-dom'
 
-export default class Pagination extends Component {
+export default class Pager extends Component {
 	static propTypes = {
 		totalPages: PropTypes.number,
 		handlePageClick: PropTypes.func,
-		currentPage: PropTypes.number
+		currentPage: PropTypes.number,
+		pathPrefix: PropTypes.string
 	}
 
 	handleItemClick = this.props.handlePageClick
 
 	render () {
-		const { totalPages, currentPage } = this.props
+		const { totalPages, currentPage, pathPrefix } = this.props
 		const menuItems = Array.from(Array(totalPages)).map((val, index) => {
 			return (
 				currentPage === index + 1
@@ -23,7 +25,8 @@ export default class Pagination extends Component {
 					: <Menu.Item
 						name={(String)(index + 1)}
 						active={false}
-						onClick={this.handleItemClick}
+						as={Link}
+						to={`/${pathPrefix}/${index + 1}`}
 						key={index} />
 			)
 		})

@@ -18,7 +18,9 @@ class RouteAuth extends Component {
 			`User has access to "${path}" path: ${canAccess(path) ? 'YES' : 'NO'}`
 		)
 
-		return canAccess(path) ? <Route {...this.props} /> : <Redirect to="/auth" />
+		return canAccess(path)
+			? <Route {...this.props} />
+			: <Redirect to="/auth" />
 	}
 }
 
