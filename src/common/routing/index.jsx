@@ -31,8 +31,8 @@ export const routes = [
 	{
 		path: '/templates/:page',
 		exact: true,
-		name: 'Dashboard',
-		tag: RouteAuth,
+		name: 'Templates',
+		tag: Route,
 		component: Dashboard
 	},
 	{
