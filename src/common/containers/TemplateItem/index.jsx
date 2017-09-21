@@ -14,9 +14,6 @@ class TemplateItem extends Component {
 		templateId: PropTypes.string,
 		templateLoaded: PropTypes.bool,
 		templateLoading: PropTypes.bool,
-		count: PropTypes.number,
-		pages: PropTypes.number,
-		page: PropTypes.number,
 		getTemplate: PropTypes.func.isRequired
 	}
 
@@ -56,10 +53,10 @@ function mapStateToProps (state, props) {
 	const {template} = state.entities
 	const templateLoaded = template.isLoaded
 	const templateLoading = template.isLoading
-	const items = template.entities
+	const item = template.entity
 
 	return {
-		template: items[0] || {},
+		template: item,
 		templateId: id,
 		templateLoading,
 		templateLoaded
@@ -71,7 +68,8 @@ function mapDispatchToProps (dispatch) {
 		getTemplate: async id => {
 			dispatch({type: GET_TEMPLATE_PENDING})
 			const result = await GET_TEMPLATE(id)
-			return dispatch(result)
+			const template = result
+			return dispatch(template)
 		}
 	}
 }

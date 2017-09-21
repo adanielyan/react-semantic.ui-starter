@@ -69,12 +69,12 @@ function mapStateToProps (state, props) {
 	const {templates} = state.entities
 	const templatesLoaded = templates.isLoaded
 	const templatesLoading = templates.isLoading
-	const items = templates.entities
+	const item = templates.entities
 	const {count, pages} = templates
 	const {page} = props.match.params || 1
 
 	return {
-		templates: items,
+		templates: item,
 		templatesLoading,
 		templatesLoaded,
 		count,

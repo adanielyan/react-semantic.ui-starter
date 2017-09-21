@@ -10,7 +10,8 @@ import {
 import {normalizeArrayOfItems} from 'api/utils'
 
 export const initialState = {
-	entities: {},
+	entities: [],
+	entity: {},
 	errors: {},
 	fetchStatus: 'none',
 	isLoading: false,
@@ -46,7 +47,7 @@ export function template (state = initialState, action) {
 			isLoading: false,
 			fetchStatus: 'loaded',
 			errors: {},
-			entities: result.data
+			entity: result.data[0] || {}
 		}
 	case GET_TEMPLATE_FAIL:
 		return {
