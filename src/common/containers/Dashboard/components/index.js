@@ -9,12 +9,8 @@ const itemsPerPage = 5
 export default class DashboardComponent extends Component {
 	static propTypes = {
 		templates: PropTypes.object,
-		getTemplates: PropTypes.func,
 		templatesLoaded: PropTypes.bool,
-		templatesLoading: PropTypes.bool,
-		count: PropTypes.number,
-		pages: PropTypes.number,
-		page: PropTypes.number
+		templatesLoading: PropTypes.bool
 	}
 
 	shouldComponentUpdate (nextProps) {
@@ -25,7 +21,7 @@ export default class DashboardComponent extends Component {
 
 	render () {
 		// {count, templatesLoading}
-		const {templates, templatesLoaded, count, pages, page} = this.props
+		const {templates, templatesLoaded} = this.props
 
 		return (
 			<Grid columns={1}>

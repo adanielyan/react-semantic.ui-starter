@@ -1,4 +1,4 @@
-import { getTemplates, getTemplate, resultOK } from 'api'
+import { getTemplates, getTemplate } from 'api'
 
 // Define action types
 export const GET_TEMPLATES_SUCCESS = 'GET_TEMPLATES_SUCCESS'
@@ -19,7 +19,7 @@ export const GET_TEMPLATES = async (payload) => {
 
 export const GET_TEMPLATE = async (payload) => {
 	const result = await getTemplate(payload)
-	if (!resultOK(result)) {
+	if (!result) {
 		return {type: GET_TEMPLATE_FAIL, errors: 'Template not found'}
 	}
 	return {type: GET_TEMPLATE_SUCCESS, result}

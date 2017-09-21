@@ -71,7 +71,7 @@ export const routes = [
 		lazy: true,
 		exact: true,
 		tag: Route,
-		component: loadLazyComponent('Dashboard/components/DashboardCardComponent')
+		component: loadLazyComponent('TemplateItem')
 	}
 ]
 

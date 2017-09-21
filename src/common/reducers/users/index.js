@@ -24,7 +24,7 @@ export function user (state = initialState, action) {
 		// Return state if path matches /users
 		// else initialState
 		const {pathname} = action.payload
-		if (/\/users/g.test(pathname)) {
+		if (/\/user/g.test(pathname)) {
 			return state
 		}
 		return initialState

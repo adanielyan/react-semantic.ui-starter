@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import PropTypes from 'prop-types'
-import {Loader, Menu, Grid} from 'semantic-ui-react'
+import {Loader, Grid} from 'semantic-ui-react'
 import {Helmet} from 'react-helmet'
 //
 import DashboardComponent from './components'
@@ -37,7 +37,7 @@ class Dashboard extends Component {
 	}
 
 	render () {
-		const {templates, templatesLoaded, templatesLoading, getTemplates, count, pages, page} = this.props
+		const {templates, templatesLoaded, templatesLoading, count, pages, page} = this.props
 
 		return (
 			<div>
@@ -49,7 +49,7 @@ class Dashboard extends Component {
 						<Grid.Row centered>
 							<Grid.Column width={16}>
 								<DashboardComponent
-									{...{templates, templatesLoaded, templatesLoading, count, pages, page, getTemplates}}
+									{...{templates, templatesLoaded, templatesLoading, count, pages, page}}
 								/>
 							</Grid.Column>
 						</Grid.Row>
