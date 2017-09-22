@@ -8,7 +8,7 @@ const itemsPerPage = 5
 
 export default class DashboardComponent extends Component {
 	static propTypes = {
-		templates: PropTypes.object,
+		templates: PropTypes.array,
 		templatesLoaded: PropTypes.bool,
 		templatesLoading: PropTypes.bool
 	}

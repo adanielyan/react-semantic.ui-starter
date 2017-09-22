@@ -10,7 +10,7 @@ import {GET_TEMPLATES, GET_TEMPLATES_PENDING} from 'actions/templates'
 
 class Dashboard extends Component {
 	static propTypes = {
-		templates: PropTypes.object,
+		templates: PropTypes.array,
 		templatesLoaded: PropTypes.bool,
 		templatesLoading: PropTypes.bool,
 		count: PropTypes.number,
@@ -55,7 +55,7 @@ class Dashboard extends Component {
 						</Grid.Row>
 						<Grid.Row centered>
 							<Grid.Column width={16}>
-								<Pager totalPages={pages} pathPrefix="templates" currentPage={parseInt(page) || 1} />
+								<Pager totalPages={pages} pathPrefix="templates" currentPage={page || 1} />
 							</Grid.Column>
 						</Grid.Row>
 					</Grid>
@@ -71,7 +71,7 @@ function mapStateToProps (state, props) {
 	const templatesLoading = templates.isLoading
 	const item = templates.entities
 	const {count, pages} = templates
-	const {page} = props.match.params || 1
+	const page = parseInt(props.match.params.page) || 1
 
 	return {
 		templates: item,
