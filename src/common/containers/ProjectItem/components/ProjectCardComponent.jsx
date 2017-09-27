@@ -4,26 +4,26 @@ import {Card, Button, Icon} from 'semantic-ui-react'
 import {VideoPlayer} from 'components'
 import {Link} from 'react-router-dom'
 
-export default class TemplateCardComponent extends Component {
+export default class ProjectCardComponent extends Component {
 	static propTypes = {
-		title: PropTypes.string.isRequired,
+		title: PropTypes.string,
 		body: PropTypes.any,
 		demoVideo: PropTypes.array,
 		resolutionsAndPrices: PropTypes.arrayOf(PropTypes.object),
 		image: PropTypes.array,
 		userId: PropTypes.number,
-		uuid: PropTypes.string.isRequired
+		uuid: PropTypes.string,
+		isNew: PropTypes.bool
 	}
 
 	render () {
-		const {title, body, uuid, image, demoVideo} = this.props
-		if (!uuid) {
-			return (
-				<div>The requested template was not found.</div>
-			)
-		}
+		const { title = '', body = '', isNew = true, uuid, image, demoVideo } = this.props
 
-		const videoId = demoVideo[0].uri.substr(demoVideo[0].uri.search('v=') + 2)
+		let videoId = null
+
+		if (!isNew) {
+			videoId = demoVideo[0].uri.substr(demoVideo[0].uri.search('v=') + 2)
+		}
 
 		const imgSrc = image && image[0] ? image[0].uri : require('images/dummy.png')
 		return (
@@ -41,7 +41,7 @@ export default class TemplateCardComponent extends Component {
 					</Card.Header>
 					<Card.Meta>
 						<span className="date">
-							Template `id` is {uuid}
+							Project `id` is {uuid}
 						</span>
 					</Card.Meta>
 					<Card.Description>
@@ -51,8 +51,8 @@ export default class TemplateCardComponent extends Component {
 				<Card.Content extra>
 					<div className="ui two buttons">
 						<Button animated="vertical" color="orange" as={Link} to={`/project/new/${uuid}`}>
-							<Button.Content visible>Create my own <Icon name='right arrow' /></Button.Content>
-							<Button.Content hidden>Create my own <Icon name='right arrow' /></Button.Content>
+							<Button.Content visible>On Project Page <Icon name='right arrow' /></Button.Content>
+							<Button.Content hidden>On Project Page <Icon name='right arrow' /></Button.Content>
 						</Button>
 						<Button basic color="green" disabled>
 							More info

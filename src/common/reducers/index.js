@@ -3,6 +3,7 @@ import {routerReducer} from 'react-router-redux'
 
 import {layout} from './layout'
 import {template, templates} from './templates'
+import {project, projects} from './projects'
 import {user, users} from './users'
 import {auth} from './auth'
 
@@ -13,6 +14,8 @@ export default combineReducers({
 	entities: combineReducers({
 		template,
 		templates,
+		project,
+		projects,
 		user,
 		users
 	}),

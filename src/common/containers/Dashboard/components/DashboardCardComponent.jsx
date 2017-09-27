@@ -9,13 +9,14 @@ export default class DashboardCardComponent extends Component {
 		body: PropTypes.string,
 		resolutionsAndPrices: PropTypes.arrayOf(PropTypes.object),
 		image: PropTypes.array,
+		thumbnailImage: PropTypes.array,
 		userId: PropTypes.number,
 		uuid: PropTypes.string
 	}
 
 	render () {
-		const {title, body, uuid, image} = this.props
-		const imgSrc = image && image[0] ? image[0].uri : require('images/dummy.png')
+		const {title, body, uuid, thumbnailImage} = this.props
+		const imgSrc = thumbnailImage && thumbnailImage[0] ? thumbnailImage[0].uri : require('images/dummy.png')
 		return (
 			<Card raised as={Link} to={`/template/${uuid}`}>
 				<Image alt="Dummy image" src={imgSrc} />

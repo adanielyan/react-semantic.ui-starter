@@ -30,7 +30,7 @@ class TemplateItem extends Component {
 		return (
 			<div>
 				<Helmet>
-					<title>Dashboard</title>
+					<title>Template</title>
 				</Helmet>
 				{templateLoaded
 					? <Grid columns={1}>

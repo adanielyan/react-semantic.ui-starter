@@ -18,6 +18,7 @@ export const usersService = app.service('users')
 export const recipesService = app.service('recipes')
 export const widgetsService = app.service('widgets')
 export const templatesService = app.service('templates')
+export const projectsService = app.service('projects')
 export const messagesService = app.service('messages')
 
 messagesService.on('created', (msg) => {

@@ -24,15 +24,11 @@ export default class TemplateComponent extends Component {
 		const {template, templateLoaded} = this.props
 
 		return (
-			<Grid columns={1}>
-				<Grid.Row centered>
-					<Grid.Column width={16}>
-						{ templateLoaded &&
-							<TemplateCardComponent {...template} />
-						}
-					</Grid.Column>
-				</Grid.Row>
-			</Grid>
+			<div>
+				{ templateLoaded &&
+					<TemplateCardComponent {...template} />
+				}
+			</div>
 		)
 	}
 }

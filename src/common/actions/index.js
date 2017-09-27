@@ -1,5 +1,6 @@
 export * from './auth'
 export * from './common'
 export * from './templates'
+export * from './projects'
 export * from './users'
 export * from './layout'
