@@ -7,9 +7,15 @@ import {Helmet} from 'react-helmet'
 //
 import ProjectComponent from './components'
 import {GET_PROJECT, GET_PROJECT_PENDING} from 'actions/projects'
+import {GET_TEMPLATE, GET_TEMPLATE_PENDING} from 'actions/templates'
 
 class ProjectItem extends Component {
 	static propTypes = {
+		templateId: PropTypes.string,
+		template: PropTypes.object,
+		templateLoaded: PropTypes.bool,
+		templateLoading: PropTypes.bool,
+		getTemplate: PropTypes.func,
 		project: PropTypes.object,
 		projectId: PropTypes.string,
 		projectLoaded: PropTypes.bool,
@@ -34,24 +40,27 @@ class ProjectItem extends Component {
 	}
 
 	componentWillMount () {
+		const {templateLoaded, templateId, projectLoaded, projectId} = this.props
+
 		if (this.isNew()) {
-			return
-		}
-
-		const {projectLoaded, projectId} = this.props
-
-		if (!projectLoaded || (projectLoaded && projectId !== this.props.project.uuid)) {
+			if (!templateLoaded || (templateLoaded && templateId !== this.props.template.uuid)) {
+				this.props.getTemplate(templateId)
+			}
+		} else if (!projectLoaded || (projectLoaded && projectId !== this.props.project.uuid)) {
 			this.props.getProject(projectId)
 		}
 	}
 
 	render () {
-		let {project, projectLoaded, projectLoading} = this.props
+		let {template, templateLoaded, templateLoading, project, projectLoaded, projectLoading} = this.props
 
 		if (this.isNew()) {
 			project = {}
 			projectLoaded = true
 			projectLoading = false
+		} else {
+			templateLoaded = projectLoaded
+			templateLoading = projectLoading
 		}
 
 		return (
@@ -64,7 +73,7 @@ class ProjectItem extends Component {
 						<Grid.Row centered>
 							<Grid.Column width={16}>
 								<ProjectComponent
-									{...{project, projectLoaded, projectLoading, isNew: this.isNew()}}
+									{...{template, templateLoaded, templateLoading, project, projectLoaded, projectLoading, isNew: this.isNew()}}
 								/>
 							</Grid.Column>
 						</Grid.Row>
@@ -76,14 +85,28 @@ class ProjectItem extends Component {
 }
 
 function mapStateToProps (state, props) {
-	const {id} = props.match.params
-	const {project} = state.entities
-	const projectLoaded = project.isLoaded
-	const projectLoading = project.isLoading
-	const item = project.entity
+	let {template, templateItem, templateLoaded, templateLoading, project, projectLoaded, projectLoading, projectItem} = {}
+	let {id, templateId} = props.match.params
+
+	if (templateId) {
+		template = state.entities.template
+		templateLoaded = template.isLoaded
+		templateLoading = template.isLoading
+		templateItem = template.entity
+	} else {
+		project = state.entities.project
+		template = project.template
+		projectLoaded = project.isLoaded
+		projectLoading = project.isLoading
+		projectItem = project.entity
+	}
 
 	return {
-		project: item,
+		templateId,
+		template: templateItem,
+		templateLoading,
+		templateLoaded,
+		project: projectItem,
 		projectId: id,
 		projectLoading,
 		projectLoaded
@@ -97,6 +120,13 @@ function mapDispatchToProps (dispatch) {
 			const result = await GET_PROJECT(id)
 			const project = result
 			return dispatch(project)
+		},
+
+		getTemplate: async id => {
+			dispatch({type: GET_TEMPLATE_PENDING})
+			const result = await GET_TEMPLATE(id)
+			const template = result
+			return dispatch(template)
 		}
 	}
 }

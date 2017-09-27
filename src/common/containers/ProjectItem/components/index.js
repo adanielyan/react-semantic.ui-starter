@@ -11,23 +11,27 @@ export default class ProjectComponent extends Component {
 		project: PropTypes.object,
 		projectLoaded: PropTypes.bool,
 		projectLoading: PropTypes.bool,
+		template: PropTypes.object,
+		templateLoaded: PropTypes.bool,
+		templateLoading: PropTypes.bool,
 		isNew: PropTypes.bool
 	}
 
 	shouldComponentUpdate (nextProps) {
+		const template = this.props.template
+		const nextTemplate = nextProps.template
 		const project = this.props.project
 		const nextProject = nextProps.project
-		return !_.isEqual(project, nextProject)
+		return !_.isEqual(project, nextProject) || !_.isEqual(template, nextTemplate)
 	}
 
 	render () {
-		// {count, projectsLoading}
-		const {project, projectLoaded} = this.props
+		const {template, templateLoaded, project, projectLoaded} = this.props
 
 		return (
 			<div>
-				{ projectLoaded &&
-					<ProjectCardComponent isNew = {this.props.isNew} {...project} />
+				{ projectLoaded && templateLoaded &&
+					<ProjectCardComponent isNew = {this.props.isNew} project = {project} template = {template} />
 				}
 			</div>
 		)

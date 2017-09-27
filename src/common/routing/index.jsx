@@ -44,7 +44,7 @@ export const routes = [
 		component: loadLazyComponent('TemplateItem')
 	},
 	{
-		path: '/project/new/:template',
+		path: '/project/new/:templateId',
 		exact: true,
 		name: 'Create new Project',
 		tag: RouteAuth,
