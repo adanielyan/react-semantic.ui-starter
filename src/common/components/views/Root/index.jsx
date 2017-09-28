@@ -52,7 +52,7 @@ export default class Root extends Component {
 			<Provider store={store} key={Math.random()}>
 				<ThemeProvider theme={theme}>
 					<Router {...routerProps} key={Math.random()}>
-						<App routes={routes}>
+						<App wrappedComponentRef={c => { this.component = c }} routes={routes}>
 							<RoutingWrapper store={store} routes={routes} />
 						</App>
 					</Router>

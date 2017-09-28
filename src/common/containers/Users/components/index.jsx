@@ -6,7 +6,7 @@ import UsersItemComponent from './UsersItemComponent'
 
 export default class UsersComponent extends PureComponent {
 	static propTypes = {
-		users: PropTypes.object.isRequired,
+		users: PropTypes.array.isRequired,
 		isUsersLoading: PropTypes.bool.isRequired,
 		isUsersLoaded: PropTypes.bool.isRequired,
 		usersCount: PropTypes.number.isRequired

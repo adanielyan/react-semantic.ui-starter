@@ -43,7 +43,7 @@ class LazyLoad extends Component {
 		if (componentLoaded) {
 			const props = _.omit(this.props, ['component'])
 			const LoadedComponent = this.state.componentToRender
-			return <LoadedComponent {...props} />
+			return <LoadedComponent wrappedComponentRef={c => { this.component = c }} {...props} />
 		} else {
 			return <Loader>Loading...</Loader>
 		}

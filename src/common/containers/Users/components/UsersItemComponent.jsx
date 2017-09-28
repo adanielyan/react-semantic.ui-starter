@@ -7,7 +7,7 @@ import {StyledUserItem} from './style'
 export default class UsersItemComponent extends Component {
 	static propTypes = {
 		email: PropTypes.string,
-		_id: PropTypes.number
+		_id: PropTypes.string
 	}
 
 	render () {

@@ -8,7 +8,7 @@ import UsersComponent from './components'
 
 class Users extends Component {
 	static propTypes = {
-		users: PropTypes.object.isRequired,
+		users: PropTypes.array.isRequired,
 		getUsers: PropTypes.func.isRequired,
 		isUsersLoaded: PropTypes.bool.isRequired,
 		isUsersLoading: PropTypes.bool.isRequired,

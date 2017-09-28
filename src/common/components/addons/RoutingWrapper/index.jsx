@@ -54,14 +54,14 @@ export default class RoutingWrapper extends Component {
 			if (lazy) {
 				const routeToRenderLazy = (
 					<Tag {...b} key={i}>
-						<LazyLoad component={component} />
+						<LazyLoad wrappedComponentRef={c => { this.component = c }} component={component} />
 					</Tag>
 				)
 				return routeToRenderLazy
 			}
 
 			// it can be Route or RouteAuth
-			return <Tag key={i} {...b} component={component} />
+			return <Tag key={i} {...b} wrappedComponentRef={c => { this.component = c }} component={component} />
 		})
 
 		return (

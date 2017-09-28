@@ -1,7 +1,8 @@
 export App from './App'
 export Dashboard from './Dashboard'
 export Users from './Users'
+export UserItem from './UserItem'
 export Login from './Login'
-export ProjectItem from './ProjectItem'
+
 // NOTE: Export only containers that aren't lazy-loaded!
 // Else lazy containers would be imported in the main bundle!

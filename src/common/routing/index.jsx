@@ -1,5 +1,5 @@
 import {Route} from 'react-router-dom'
-import {Users, Dashboard, Login, ProjectItem} from 'containers'
+import {Users, Dashboard, Login, ProjectItem, UserItem} from 'containers'
 import RouteAuth from 'components/addons/RouteAuth'
 import {createBrowserHistory, createMemoryHistory} from 'history'
 
@@ -48,7 +48,7 @@ export const routes = [
 		exact: true,
 		name: 'Create new Project',
 		tag: RouteAuth,
-		component: ProjectItem
+		component: loadLazyComponent('ProjectItem')
 	},
 	{
 		path: '/project/:id',
@@ -82,10 +82,11 @@ export const routes = [
 	{
 		path: '/users/:id',
 		name: 'User',
-		lazy: true,
+		// lazy: true,
 		exact: true,
 		tag: RouteAuth,
-		component: loadLazyComponent('UserItem')
+		// component: loadLazyComponent('UserItem')
+		component: UserItem
 	}
 ]
 

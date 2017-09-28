@@ -10,7 +10,7 @@ import {
 import {normalizeArrayOfItems} from 'api/utils'
 
 export const initialState = {
-	entities: {},
+	entities: [],
 	errors: {},
 	fetchStatus: 'none',
 	isLoading: false,
@@ -27,6 +27,7 @@ export function user (state = initialState, action) {
 		if (/\/user/g.test(pathname)) {
 			return state
 		}
+
 		return initialState
 	}
 	case GET_USER_PENDING: {
